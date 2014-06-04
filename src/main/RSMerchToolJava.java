@@ -6,6 +6,8 @@
 
 package main;
 
+import thread.RetrieveItemThread;
+
 /**
  *
  * @author Pim
@@ -16,6 +18,8 @@ public class RSMerchToolJava {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        RetrieveItemThread rit = new RetrieveItemThread(4798);
+        rit.run();
     }
     
 }
