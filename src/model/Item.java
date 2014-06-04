@@ -17,7 +17,7 @@ public class Item {
     private int price;
     private String currentTrend;
     private String todayTrend;
-    private int todayPrice;
+    private int todayPriceChange;
     private boolean members;
     private String day30Trend;
     private String day30Change;
@@ -25,6 +25,7 @@ public class Item {
     private String day90Trend;
     private String day180Trend;
     private String day180Change;
+    private Category category;
 
     public Item() {
 
@@ -54,8 +55,8 @@ public class Item {
         this.todayTrend = todayTrend;
     }
 
-    public void setTodayPrice(int todayPrice) {
-        this.todayPrice = todayPrice;
+    public void setTodayPriceChange(int todayPriceChange) {
+        this.todayPriceChange = todayPriceChange;
     }
 
     public void setMembers(boolean members) {
@@ -86,6 +87,10 @@ public class Item {
         this.day180Change = day180Change;
     }
 
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public int getItemId() {
         return this.itemId;
     }
@@ -110,8 +115,8 @@ public class Item {
         return this.todayTrend;
     }
 
-    public int getTodayPrice() {
-        return this.todayPrice;
+    public int getTodayPriceChange() {
+        return this.todayPriceChange;
     }
 
     public boolean isMembers() {
@@ -142,17 +147,18 @@ public class Item {
         return this.day180Change;
     }
 
+    public Category getCategory() {
+        return this.category;
+    }
+
     @Override
     public String toString() {
         String information = "";
         information += "Name: " + this.name + "\n";
-        information += "Current Price: " + this.name + "\n";
-        information += "Today's Price: " + this.name + "\n";
-        information += "Name: " + this.name + "\n";
-        information += "Name: " + this.name + "\n";
-        information += "Name: " + this.name + "\n";
-        
-        
+        information += "Current Price: " + this.price + "\n";
+        information += "180 Day Trend: " + this.day180Trend + "\n";
+        information += "Category: " + this.category.toString() + "\n";
         return information;
     }
+
 }

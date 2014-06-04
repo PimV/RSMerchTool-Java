@@ -21,7 +21,7 @@ import org.json.simple.parser.JSONParser;
  *
  * @author Pim
  */
-public class RetrieveItemThread implements Runnable {
+public class ItemInformationThread implements Runnable {
 
     protected int itemId;
 
@@ -31,7 +31,7 @@ public class RetrieveItemThread implements Runnable {
      *
      * @param itemId
      */
-    public RetrieveItemThread(int itemId) {
+    public ItemInformationThread(int itemId) {
         this.itemId = itemId;
     }
 
@@ -79,12 +79,19 @@ public class RetrieveItemThread implements Runnable {
         //Extract currentObject
         String currentTrend = currentObject.get("trend").toString();
         String priceString = currentObject.get("price").toString();
-        int price = Integer.parseInt(priceString);
+        int price = -1;
+        try {
+            price = Integer.parseInt(priceString);
+        } catch (Exception e) {
+            price = -11;
+        }
+        
 
         //Extract todayObject
         String todayTrend = todayObject.get("trend").toString();
         String todayPriceString = todayObject.get("price").toString();
         int todayPriceChange = Integer.parseInt(todayPriceString);
+        
 
         //Extract day30Object
         String day30Trend = day30Object.get("trend").toString();
