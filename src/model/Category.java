@@ -11,49 +11,53 @@ package model;
  */
 public enum Category {
 
-    MISCELLANEOUS(0),
-    AMMO(1),
-    ARROWS(2),
-    BOLTS(3),
-    CONSTRUCTION_MATERIALS(4),
-    CONSTRUCTION_PROJECTS(5),
-    COOKING_INGREDIENTS(6),
-    COSTUMES(7),
-    CRAFTING_MATERIALS(8),
-    FAMILIARS(9),
-    FARMING_PRODUCE(10),
-    FLETCHING_MATERIALS(11),
-    FOOD_AND_DRINK(12),
-    HERBLORE_MATERIALS(13),
-    HUNTING_EQUIPMENT(14),
-    HUNTING_PRODUCE(15),
-    JEWELLERY(16),
-    MAGE_ARMOUR(17),
-    MAGE_WEAPONS(18),
-    MELEE_ARMOUR_LOW(19),
-    MELEE_ARMOUR_MID(20),
-    MELEE_ARMOUR_HIGH(21),
-    MELEE_WEAPONS_LOW(22),
-    MELEE_WEAPONS_MID(23),
-    MELEE_WEAPONS_HIGH(24),
-    MINING_AND_SMITHING(25),
-    POTIONS(26),
-    PRAYER_ARMOUR(27),
-    PRAYER_MATERIALS(28),
-    RANGE_ARMOUR(29),
-    RANGE_WEAPONS(30),
-    RUNECRAFTING(31),
-    RUNES_SPELLS_AND_TELEPORTS(32),
-    SEEDS(33),
-    SUMMONING_SCROLLS(34),
-    TOOLS_AND_CONTAINERS(35),
-    WOODCUTTING_PRODUCT(36),
-    POCKET_ITEMS(37);
+    MISCELLANEOUS(0, "Miscellaneous", "Random items"),
+    AMMO(1, "Miscellaneous", "Random items"),
+    ARROWS(2, "Miscellaneous", "Random items"),
+    BOLTS(3, "Miscellaneous", "Random items"),
+    CONSTRUCTION_MATERIALS(4, "Miscellaneous", "Random items"),
+    CONSTRUCTION_PROJECTS(5, "Miscellaneous", "Random items"),
+    COOKING_INGREDIENTS(6, "Miscellaneous", "Random items"),
+    COSTUMES(7, "Miscellaneous", "Random items"),
+    CRAFTING_MATERIALS(8, "Miscellaneous", "Random items"),
+    FAMILIARS(9, "Miscellaneous", "Random items"),
+    FARMING_PRODUCE(10, "Miscellaneous", "Random items"),
+    FLETCHING_MATERIALS(11, "Miscellaneous", "Random items"),
+    FOOD_AND_DRINK(12, "Miscellaneous", "Random items"),
+    HERBLORE_MATERIALS(13, "Miscellaneous", "Random items"),
+    HUNTING_EQUIPMENT(14, "Miscellaneous", "Random items"),
+    HUNTING_PRODUCE(15, "Miscellaneous", "Random items"),
+    JEWELLERY(16, "Miscellaneous", "Random items"),
+    MAGE_ARMOUR(17, "Miscellaneous", "Random items"),
+    MAGE_WEAPONS(18, "Miscellaneous", "Random items"),
+    MELEE_ARMOUR_LOW(19, "Miscellaneous", "Random items"),
+    MELEE_ARMOUR_MID(20, "Miscellaneous", "Random items"),
+    MELEE_ARMOUR_HIGH(21, "Miscellaneous", "Random items"),
+    MELEE_WEAPONS_LOW(22, "Miscellaneous", "Random items"),
+    MELEE_WEAPONS_MID(23, "Miscellaneous", "Random items"),
+    MELEE_WEAPONS_HIGH(24, "Miscellaneous", "Random items"),
+    MINING_AND_SMITHING(25, "Miscellaneous", "Random items"),
+    POTIONS(26, "Miscellaneous", "Random items"),
+    PRAYER_ARMOUR(27, "Miscellaneous", "Random items"),
+    PRAYER_MATERIALS(28, "Miscellaneous", "Random items"),
+    RANGE_ARMOUR(29, "Miscellaneous", "Random items"),
+    RANGE_WEAPONS(30, "Miscellaneous", "Random items"),
+    RUNECRAFTING(31, "Miscellaneous", "Random items"),
+    RUNES_SPELLS_AND_TELEPORTS(32, "Miscellaneous", "Random items"),
+    SEEDS(33, "Miscellaneous", "Random items"),
+    SUMMONING_SCROLLS(34, "Miscellaneous", "Random items"),
+    TOOLS_AND_CONTAINERS(35, "Miscellaneous", "Random items"),
+    WOODCUTTING_PRODUCT(36, "Miscellaneous", "Random items"),
+    POCKET_ITEMS(37, "Pocket Items", "Random items"),;
 
     private final int categoryNumber;
+    private final String niceName;
+    private final String description;
 
-    Category(int categoryNumber) {
+    Category(int categoryNumber, String niceName, String description) {
         this.categoryNumber = categoryNumber;
+        this.niceName = niceName;
+        this.description = description;
     }
 
     public static final Category get(String categoryName) {
@@ -62,11 +66,18 @@ public enum Category {
                 return c;
             }
         }
-
         return null;
     }
 
     public final int getCategoryNumber() {
         return this.categoryNumber;
+    }
+
+    public final String getNiceName() {
+        return this.niceName;
+    }
+    
+    public final String getDescription() {
+        return this.description;
     }
 }
