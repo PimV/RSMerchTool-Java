@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package rsmerchtool.java;
+package main;
 
 /**
  *
@@ -16,7 +16,6 @@ public class RSMerchToolJava {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
     }
     
 }
