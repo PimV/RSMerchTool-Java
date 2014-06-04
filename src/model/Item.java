@@ -5,8 +5,6 @@
  */
 package model;
 
-import model.Category;
-
 /**
  *
  * @author Pim
@@ -27,7 +25,6 @@ public class Item {
     private String day90Trend;
     private String day180Trend;
     private String day180Change;
-    private Category category;
 
     public Item() {
 
@@ -88,10 +85,6 @@ public class Item {
     public void setDay180Change(String day180Change) {
         this.day180Change = day180Change;
     }
-    
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 
     public int getItemId() {
         return this.itemId;
@@ -148,18 +141,16 @@ public class Item {
     public String getDay180Change() {
         return this.day180Change;
     }
-    
-    public Category getCategory() {
-        return this.category;
-    }
 
     @Override
     public String toString() {
         String information = "";
         information += "Name: " + this.name + "\n";
-        information += "Category: " + this.category.toString() + "\n";
         information += "Current Price: " + this.name + "\n";
         information += "Today's Price: " + this.name + "\n";
+        information += "Name: " + this.name + "\n";
+        information += "Name: " + this.name + "\n";
+        information += "Name: " + this.name + "\n";
         
         
         return information;

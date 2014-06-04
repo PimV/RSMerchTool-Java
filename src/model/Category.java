@@ -55,17 +55,4 @@ public enum Category {
     Category(int categoryNumber) {
         this.categoryNumber = categoryNumber;
     }
-
-    public static final Category get(String categoryName) {
-        for (Category c : Category.values()) {
-            if (c.toString().equals(categoryName)) {
-                return c;
-            }
-        }
-        return null;
-    }
-
-    public final int getValue() {
-        return this.categoryNumber;
-    }
 }
