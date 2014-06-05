@@ -33,37 +33,37 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         listPanel = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        itemSearchField = new javax.swing.JTextField();
+        itemScrollPane = new javax.swing.JScrollPane();
+        itemList = new javax.swing.JList();
         graphicPanel = new javax.swing.JPanel();
         itemPanel = new javax.swing.JPanel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        mainMenuBar = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        reloadItemsMenuItem = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        itemMenu = new javax.swing.JMenu();
+        reloadAllItemsMenuItem = new javax.swing.JMenuItem();
+        offerMenu = new javax.swing.JMenu();
         newOfferMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jScrollPane1.setViewportView(jList1);
+        itemScrollPane.setViewportView(itemList);
 
         javax.swing.GroupLayout listPanelLayout = new javax.swing.GroupLayout(listPanel);
         listPanel.setLayout(listPanelLayout);
         listPanelLayout.setHorizontalGroup(
             listPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTextField1)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+            .addComponent(itemSearchField)
+            .addComponent(itemScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
         );
         listPanelLayout.setVerticalGroup(
             listPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(listPanelLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(itemSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
+                .addComponent(itemScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
         );
 
         graphicPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -93,7 +93,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("File");
+        fileMenu.setText("File");
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         exitMenuItem.setText("Exit");
@@ -102,24 +102,24 @@ public class MainFrame extends javax.swing.JFrame {
                 exitMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(exitMenuItem);
+        fileMenu.add(exitMenuItem);
 
-        jMenuBar1.add(jMenu1);
+        mainMenuBar.add(fileMenu);
 
-        jMenu2.setText("Items");
+        itemMenu.setText("Items");
 
-        reloadItemsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        reloadItemsMenuItem.setText("Reload all items...");
-        reloadItemsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+        reloadAllItemsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        reloadAllItemsMenuItem.setText("Reload all items...");
+        reloadAllItemsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                reloadItemsMenuItemActionPerformed(evt);
+                reloadAllItemsMenuItemActionPerformed(evt);
             }
         });
-        jMenu2.add(reloadItemsMenuItem);
+        itemMenu.add(reloadAllItemsMenuItem);
 
-        jMenuBar1.add(jMenu2);
+        mainMenuBar.add(itemMenu);
 
-        jMenu3.setText("Offers");
+        offerMenu.setText("Offers");
 
         newOfferMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         newOfferMenuItem.setText("Create new offer...");
@@ -128,11 +128,11 @@ public class MainFrame extends javax.swing.JFrame {
                 newOfferMenuItemActionPerformed(evt);
             }
         });
-        jMenu3.add(newOfferMenuItem);
+        offerMenu.add(newOfferMenuItem);
 
-        jMenuBar1.add(jMenu3);
+        mainMenuBar.add(offerMenu);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(mainMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,9 +161,9 @@ public class MainFrame extends javax.swing.JFrame {
        this.controller.exit();
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
-    private void reloadItemsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reloadItemsMenuItemActionPerformed
+    private void reloadAllItemsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reloadAllItemsMenuItemActionPerformed
         this.controller.getItemController().reloadAllItems();
-    }//GEN-LAST:event_reloadItemsMenuItemActionPerformed
+    }//GEN-LAST:event_reloadAllItemsMenuItemActionPerformed
 
     private void newOfferMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newOfferMenuItemActionPerformed
         this.controller.getOfferController().createNewOffer();
@@ -211,17 +211,17 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem exitMenuItem;
+    private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel graphicPanel;
+    private javax.swing.JList itemList;
+    private javax.swing.JMenu itemMenu;
     private javax.swing.JPanel itemPanel;
-    private javax.swing.JList jList1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane itemScrollPane;
+    private javax.swing.JTextField itemSearchField;
     private javax.swing.JPanel listPanel;
+    private javax.swing.JMenuBar mainMenuBar;
     private javax.swing.JMenuItem newOfferMenuItem;
-    private javax.swing.JMenuItem reloadItemsMenuItem;
+    private javax.swing.JMenu offerMenu;
+    private javax.swing.JMenuItem reloadAllItemsMenuItem;
     // End of variables declaration//GEN-END:variables
 }

@@ -15,6 +15,7 @@ public class Offer {
     private Item item;
     private int buyPrice;
     private int sellPrice;
+    private boolean completed;
     
     
     public Offer(Item item) {
@@ -27,6 +28,22 @@ public class Offer {
     
     public void setSellPrice(int sellPrice) {
         this.sellPrice = sellPrice;
+    }
+    
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+    
+    public int getBuyPrice() {
+        return this.buyPrice;
+    }
+    
+    public int getSellPrice() {
+        return this.sellPrice;
+    }
+    
+    public boolean getCompleted() {
+        return this.completed;
     }
     
     public int calculateMargin() {

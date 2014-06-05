@@ -3,29 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package controller;
+
+import model.User;
 
 /**
  *
  * @author PimGame
  */
 public class UserController {
- 
-   public UserController() {
-       
-   }
-   
-   public void login() {
-       
-   }
-   
-   public void logout() {
-       
-   }
-   
-   public void validateCredentials() {
-       
-   }
-    
+
+    private User user;
+
+    public UserController() {
+
+    }
+
+    public void login() {
+
+    }
+
+    public void logout() {
+
+    }
+
+    public void validateCredentials() {
+
+    }
+
 }
