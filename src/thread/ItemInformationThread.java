@@ -6,14 +6,18 @@
 package thread;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.Proxy;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
 import model.Category;
-import model.Item;
+import model.ORM.ItemRow;
+import model.ORM.ItemTable;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -24,6 +28,7 @@ import org.json.simple.parser.JSONParser;
 public class ItemInformationThread implements Runnable {
 
     protected int itemId;
+    protected Proxy proxy;
 
     /**
      * The thread which retrieves the information for an item. Required is an
@@ -31,26 +36,34 @@ public class ItemInformationThread implements Runnable {
      *
      * @param itemId
      */
-    public ItemInformationThread(int itemId) {
+    public ItemInformationThread(int itemId, Proxy p) {
         this.itemId = itemId;
+        this.proxy = p;
     }
 
     @Override
     public void run() {
         try {
-            Item i = new Item();
+            // Item i = new Item();
+            ItemTable it = new ItemTable();
+            ItemRow i = it.createRow();
             retrieveItemInformation(i);
             retrieveAccuratePriceInformation(i);
 
         } catch (Exception e) {
-            System.err.println("Error retrieving item with itemId: " + this.itemId);
-            e.printStackTrace();
+            if (!(e instanceof FileNotFoundException)) {
+                System.err.println("Error retrieving item with itemId: " + this.itemId);
+                e.printStackTrace();
+            }
         }
     }
 
-    private Item retrieveItemInformation(Item i) throws Exception {
+    private ItemRow retrieveItemInformation(ItemRow i) throws Exception {
         URL itemInformation = new URL(getItemInformationURL());
-        InputStream is = itemInformation.openStream();
+        URLConnection conn = itemInformation.openConnection(this.proxy);
+
+        InputStream is = conn.getInputStream();
+//InputStream is = itemInformation.openStream();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
         String json = (String) readAll(br);
@@ -72,9 +85,9 @@ public class ItemInformationThread implements Runnable {
             members = true;
         }
         String categoryString = itemObject.get("type").toString();
-        categoryString = categoryString.replace(' ', '_');
-        categoryString = categoryString.toUpperCase();
-        Category category = Category.get(categoryString);
+        //categoryString = categoryString.replace(' ', '_');
+        //categoryString = categoryString.toUpperCase();
+        Category category = Category.getByNiceName(categoryString);
 
         //Extract currentObject
         String currentTrend = currentObject.get("trend").toString();
@@ -85,13 +98,11 @@ public class ItemInformationThread implements Runnable {
         } catch (Exception e) {
             price = -11;
         }
-        
 
         //Extract todayObject
         String todayTrend = todayObject.get("trend").toString();
-        String todayPriceString = todayObject.get("price").toString();
-        int todayPriceChange = Integer.parseInt(todayPriceString);
-        
+        String todayPriceChange = todayObject.get("price").toString();
+        //int todayPriceChange = Integer.parseInt(todayPriceString);
 
         //Extract day30Object
         String day30Trend = day30Object.get("trend").toString();
@@ -106,10 +117,11 @@ public class ItemInformationThread implements Runnable {
         String day180Change = day180Object.get("change").toString();
 
         //Set values for this new Item
+        i.setID(this.itemId);
         i.setName(name);
         i.setDescription(description);
-        i.setPrice(price);
-        i.setCurrentTrend(currentTrend);
+        // i.setPrice(price);
+        // i.setCurrentTrend(currentTrend);
         i.setTodayPriceChange(todayPriceChange);
         i.setTodayTrend(todayTrend);
         i.setDay30Trend(day30Trend);
@@ -120,11 +132,14 @@ public class ItemInformationThread implements Runnable {
         i.setDay180Change(day180Change);
         i.setMembers(members);
         i.setCategory(category);
+        i.setLastUpdated();
         System.out.println(i);
+
+        i.insertNewWithID();
         return i;
     }
-    
-    private Item retrieveAccuratePriceInformation(Item i) {
+
+    private ItemRow retrieveAccuratePriceInformation(ItemRow i) {
         return i;
     }
 

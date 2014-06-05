@@ -48,10 +48,11 @@ public class DbRow<T> {
         if (id == -1) {
             //Create new row
             String query = "INSERT INTO " + DbTable.DATABASE_NAME + "."
-                    + this.table.getName() + " ";
+                    + table.getName() + " ";
 
             // Loop through columns
             query += "(";
+
             for (String columnName : this.table.getColumns()) {
                 query += columnName + ", ";
             }
@@ -128,6 +129,61 @@ public class DbRow<T> {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void insertNewWithID() {
+        //Create new row
+        String query = "INSERT INTO " + DbTable.DATABASE_NAME + "."
+                + table.getName() + " ";
+
+        // Loop through columns
+        query += "(";
+        query += this.table.getIdField() + ", ";
+        for (String columnName : this.table.getColumns()) {
+            query += columnName + ", ";
+        }
+        query = query.substring(0, query.length() - 2);
+        query += ")";
+
+        // Loop through values
+        query += " VALUES ";
+        query += "(";
+        query += this.getID() + ", ";
+        for (String columnName : this.table.getColumns()) {
+            query += "?, ";
+        }
+        query = query.substring(0, query.length() - 2);
+        query += ")";
+
+        try {
+            DatabaseController.openConnection();
+            PreparedStatement stmt = DatabaseController.
+                    getConnection().
+                    prepareStatement(query);
+
+            int i = 1;
+            for (String columnName : this.table.getColumns()) {
+                if (get(columnName, "").equals("null")) {
+                    stmt.setNull(i, Types.NULL);
+                } else {
+                    stmt.setString(i, get(columnName, ""));
+                }
+                i++;
+            }
+            stmt.execute();
+            stmt.closeOnCompletion();
+
+            ResultSet keys = stmt.executeQuery("SELECT LAST_INSERT_ID()");
+            if (keys.next()) {
+                this.setID(keys.getInt(1));
+            }
+            keys.close();
+
+            stmt.closeOnCompletion();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

@@ -7,7 +7,11 @@ package controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
 import model.DatabaseConstants;
 
 /**
@@ -56,9 +60,56 @@ public class DatabaseController {
         }
         return connectionOpen;
     }
-    
+
     public static Connection getConnection() {
         return con;
+    }
+
+    public static void executeQuery(String query, ArrayList<String> params) {
+        try {
+            PreparedStatement stmt = getConnection().prepareStatement(query);
+            int i = 1;
+            for (String param : params) {
+                if (param.equals("") || param.isEmpty()) {
+                    stmt.setNull(i, Types.NULL);
+                } else {
+                    stmt.setString(i, param);
+                }
+                i++;
+            }
+
+            stmt.execute();
+            stmt.closeOnCompletion();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ResultSet executeGetQuery(String query, ArrayList<String> params) {
+        try {
+            if (connectionOpen == false) {
+                openConnection();
+            }
+            PreparedStatement stmt = getConnection().prepareStatement(query);
+            int i = 1;
+            for (String param : params) {
+                if (param.equals("") || param.isEmpty()) {
+                    stmt.setNull(i, Types.NULL);
+                } else {
+                    stmt.setString(i, param);
+                }
+                i++;
+            }
+
+            ResultSet result = stmt.executeQuery();
+            stmt.closeOnCompletion();
+            return result;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
