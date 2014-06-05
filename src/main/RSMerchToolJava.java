@@ -6,7 +6,8 @@
 
 package main;
 
-import thread.ItemInformationThread;
+import controller.MainController;
+import view.MainFrame;
 
 /**
  *
@@ -18,8 +19,11 @@ public class RSMerchToolJava {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ItemInformationThread iit = new ItemInformationThread(11252);
-        iit.run();
+        MainFrame mainFrame = new MainFrame();
+        MainController mainController = new MainController();
+        
+        mainController.setMainFrame(mainFrame);
+        mainFrame.setController(mainController);
     }
     
 }

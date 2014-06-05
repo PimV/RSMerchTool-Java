@@ -6,17 +6,21 @@
 
 package view;
 
+import controller.MainController;
+
 /**
  *
  * @author PimGame
  */
 public class MainFrame extends javax.swing.JFrame {
+    private MainController controller;
 
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
+        this.setVisible(true);
     }
 
     /**
@@ -28,21 +32,82 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        exitMenuItem = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        reloadItemsMenuItem = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        newOfferMenuItem = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jMenu1.setText("File");
+
+        exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
+        exitMenuItem.setText("Exit");
+        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(exitMenuItem);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Items");
+
+        reloadItemsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        reloadItemsMenuItem.setText("Reload all items...");
+        reloadItemsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reloadItemsMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(reloadItemsMenuItem);
+
+        jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Offers");
+
+        newOfferMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        newOfferMenuItem.setText("Create new offer...");
+        newOfferMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newOfferMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(newOfferMenuItem);
+
+        jMenuBar1.add(jMenu3);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 379, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
+       this.controller.exit();
+    }//GEN-LAST:event_exitMenuItemActionPerformed
+
+    private void reloadItemsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reloadItemsMenuItemActionPerformed
+        this.controller.getItemController().reloadAllItems();
+    }//GEN-LAST:event_reloadItemsMenuItemActionPerformed
+
+    private void newOfferMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newOfferMenuItemActionPerformed
+        this.controller.getOfferController().createNewOffer();
+    }//GEN-LAST:event_newOfferMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,7 +143,19 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void setController(MainController controller) {
+        this.controller = controller;
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem exitMenuItem;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem newOfferMenuItem;
+    private javax.swing.JMenuItem reloadItemsMenuItem;
     // End of variables declaration//GEN-END:variables
 }
