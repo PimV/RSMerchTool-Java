@@ -50,6 +50,7 @@ public class ItemInformationThread implements Runnable {
             // Item i = new Item();
             ItemTable it = new ItemTable();
             ItemRow i = it.createRow();
+
             retrieveItemInformation(i);
             retrieveAccuratePriceInformation(i);
             itemController.addItemToList(i);

@@ -7,6 +7,7 @@ package view;
 
 import controller.MainController;
 import javax.swing.DefaultListModel;
+import javax.swing.event.DocumentListener;
 import model.ORM.ItemRow;
 
 /**
@@ -23,6 +24,12 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         this.setVisible(true);
+
+        itemList.setAutoCreateRowSorter(true);
+        itemList.toggleSortOrder();
+
+        DocumentListener listener = new ItemSearchFieldListener(itemList);
+        itemSearchField.getDocument().addDocumentListener(listener);
     }
 
     /**
@@ -37,7 +44,7 @@ public class MainFrame extends javax.swing.JFrame {
         listPanel = new javax.swing.JPanel();
         itemSearchField = new javax.swing.JTextField();
         itemScrollPane = new javax.swing.JScrollPane();
-        itemList = new javax.swing.JList();
+        itemList = new org.jdesktop.swingx.JXList();
         graphicPanel = new javax.swing.JPanel();
         itemPanel = new javax.swing.JPanel();
         mainMenuBar = new javax.swing.JMenuBar();
@@ -66,7 +73,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(5, 5, 5)
                 .addComponent(itemSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(itemScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
+                .addComponent(itemScrollPane))
         );
 
         graphicPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -80,7 +87,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         graphicPanelLayout.setVerticalGroup(
             graphicPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 171, Short.MAX_VALUE)
         );
 
         itemPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -93,7 +100,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         itemPanelLayout.setVerticalGroup(
             itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 196, Short.MAX_VALUE)
         );
 
         fileMenu.setText("File");
@@ -152,7 +159,7 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(listPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(itemPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                .addComponent(itemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(graphicPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -225,7 +232,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel graphicPanel;
-    private javax.swing.JList itemList;
+    private org.jdesktop.swingx.JXList itemList;
     private javax.swing.JMenu itemMenu;
     private javax.swing.JPanel itemPanel;
     private javax.swing.JScrollPane itemScrollPane;

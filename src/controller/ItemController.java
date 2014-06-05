@@ -74,14 +74,14 @@ public class ItemController {
 
     public void reloadAllItems() {
         try {
-            for (int i = 1067; i <= 1093; i++) {
+            for (int i = 1; i <= 16000; i++) {
                 int proxyNumber = i % 8;
                 Proxy p = proxies.get(proxyNumber);
                 ItemInformationThread iit = new ItemInformationThread(i, p, this);
                 iit.run();
                 Thread.sleep(300);
             }
-            throw new Exception("reloadAllItems() has not been implemented yet!");
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
