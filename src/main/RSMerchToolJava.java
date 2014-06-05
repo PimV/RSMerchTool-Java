@@ -6,6 +6,7 @@
 
 package main;
 
+import controller.DatabaseController;
 import controller.MainController;
 import view.MainFrame;
 
