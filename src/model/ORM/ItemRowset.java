@@ -9,6 +9,6 @@ package model.ORM;
  *
  * @author PimGame
  */
-public class ItemRowset extends DbRowset {
+public class ItemRowset extends DbRowset<ItemRow> {
 
 }

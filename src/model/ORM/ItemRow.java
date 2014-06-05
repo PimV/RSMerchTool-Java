@@ -61,7 +61,7 @@ public class ItemRow extends DbRow {
 
     public void setTodayTrend(String todayTrend) {
         this.todayTrend = todayTrend;
-        set("today_trend", currentTrend);
+        set("today_trend", todayTrend);
     }
 
     public void setTodayPriceChange(String todayPriceChange) {
@@ -203,12 +203,13 @@ public class ItemRow extends DbRow {
 
     @Override
     public String toString() {
-        String information = "";
-        information += "Name: " + this.name + "\n";
-        information += "Current Price: " + this.currentPrice + "\n";
-        information += "180 Day Trend: " + this.day180Trend + "\n";
-        information += "Category: " + this.category.toString() + "\n";
-        return information;
+       // String information = "";
+        // information += "Name: " + this.name + "\n";
+        // information += "Current Price: " + this.currentPrice + "\n";
+        // information += "180 Day Trend: " + this.day180Trend + "\n";
+        // information += "Category: " + this.category.toString() + "\n";
+        // return information;
+        return getName();
     }
 
 }

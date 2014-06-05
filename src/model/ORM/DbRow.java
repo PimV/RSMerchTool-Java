@@ -5,6 +5,8 @@
  */
 package model.ORM;
 
+
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import controller.DatabaseController;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -182,6 +184,44 @@ public class DbRow<T> {
 
             stmt.closeOnCompletion();
 
+        } catch (Exception e) {
+            if (e instanceof MySQLIntegrityConstraintViolationException) {
+                updateNewWithId();
+            } else {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void updateNewWithId() {
+        String query = "UPDATE " + DbTable.DATABASE_NAME + "."
+                + this.table.getName() + " SET ";
+        for (String columnName : this.table.getColumns()) {
+            query += columnName + "=?, ";
+        }
+        query = query.substring(0, query.length() - 2);
+
+        query += " WHERE " + this.table.getIdField() + "=? LIMIT 1";
+
+        try {
+            DatabaseController.openConnection();
+            PreparedStatement stmt = DatabaseController.
+                    getConnection().
+                    prepareStatement(query);
+
+            int i = 1;
+            for (String columnName : this.table.getColumns()) {
+                if (get(columnName, "").equals("null")) {
+                    stmt.setNull(i, Types.NULL);
+                } else {
+                    stmt.setString(i, get(columnName, ""));
+                }
+                i++;
+            }
+            stmt.setString(i, get(this.table.getIdField(), ""));
+
+            stmt.execute();
+            stmt.closeOnCompletion();
         } catch (SQLException e) {
             e.printStackTrace();
         }

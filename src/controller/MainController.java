@@ -33,6 +33,10 @@ public class MainController {
         return this.itemController;
     }
     
+    public MainFrame getMainFrame() {
+        return this.mainFrame;
+    }
+    
     public void exit() {
         System.exit(0);
     }

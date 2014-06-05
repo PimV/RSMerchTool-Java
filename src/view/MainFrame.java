@@ -3,16 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package view;
 
 import controller.MainController;
+import javax.swing.DefaultListModel;
+import model.ORM.ItemRow;
 
 /**
  *
  * @author PimGame
  */
 public class MainFrame extends javax.swing.JFrame {
+
     private MainController controller;
 
     /**
@@ -48,6 +50,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        itemList.setModel(new DefaultListModel<ItemRow>());
         itemScrollPane.setViewportView(itemList);
 
         javax.swing.GroupLayout listPanelLayout = new javax.swing.GroupLayout(listPanel);
@@ -149,7 +152,7 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(listPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(itemPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(itemPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(graphicPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -158,7 +161,7 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-       this.controller.exit();
+        this.controller.exit();
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void reloadAllItemsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reloadAllItemsMenuItemActionPerformed
@@ -203,11 +206,20 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
     }
-    
+
+    public synchronized void addItemToList(final ItemRow item) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                DefaultListModel<ItemRow> model = (DefaultListModel<ItemRow>) itemList.getModel();
+                model.addElement(item);
+            }
+        });
+    }
+
     public void setController(MainController controller) {
         this.controller = controller;
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem exitMenuItem;

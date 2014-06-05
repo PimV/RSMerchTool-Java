@@ -24,10 +24,19 @@ public class RSMerchToolJava {
 
         mainController.setMainFrame(mainFrame);
         mainFrame.setController(mainController);
-        
-        System.out.println(" ------------ Completed loading ------------ ");
-        System.exit(0);
 
+        mainController.getItemController().getAllItems();
+
+//        mainController.getItemControllerasdfasdfasdfasdfasdfasdf().getItem(2);
+//        mainController.getItemController().getItem(6);
+//        mainController.getItemController().getItem(42);
+//        mainController.getItemController().getItem(43);
+       // mainController.getItemController().reloadItem(2);
+        // mainController.getItemController().reloadItem(6);
+        // mainController.getItemController().reloadItem(42);
+        // mainController.getItemController().reloadItem(43);
+        //System.out.println(" ------------ Completed loading ------------ ");
+        // System.exit(0);
         //Testing ItemTable
         //ItemTable it = new ItemTable();
         //it.fetchAll();

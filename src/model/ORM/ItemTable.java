@@ -71,14 +71,14 @@ public class ItemTable extends DbTable<ItemRow> {
                     + " WHERE " + this.getIdField() + " = " + id;
             ArrayList<String> params = new ArrayList<>();
             ResultSet res = DatabaseController.executeGetQuery(query, params);
-            while (res.next()) {
+            if (res.next()) {
                 ir = createRow();
 
                 for (String columnName : this.getColumns()) {
                     ir.set(columnName, res.getString(columnName));
                     System.out.println(columnName + ": " + res.getString(columnName));
                 }
-                return ir;
+
             }
         } catch (SQLException e) {
             System.err.println("Error in fetch with item id: " + id);

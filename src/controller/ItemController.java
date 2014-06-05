@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.ORM.ItemRow;
+import model.ORM.ItemRowset;
 import model.ORM.ItemTable;
 import thread.ItemInformationThread;
 
@@ -39,15 +40,30 @@ public class ItemController {
         proxies.add(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("219.68.214.198", 8888)));
     }
 
+    public void addItemToList(ItemRow item) {
+        mainController.getMainFrame().addItemToList(item);
+    }
+
     public ItemRow getItem(int itemId) {
-        return items.fetch(itemId);
+        ItemRow fetchedItem = items.fetch(itemId);
+
+        addItemToList(fetchedItem);
+        return fetchedItem;
+    }
+
+    public ItemRowset getAllItems() {
+        ItemRowset irs = items.fetchAll();
+        for (ItemRow ir : irs) {
+            addItemToList(ir);
+        }
+        return irs;
     }
 
     public void reloadItem(int itemId) {
         Random rnd = new Random();
         int proxyNumber = rnd.nextInt(7);
         Proxy p = proxies.get(proxyNumber);
-        ItemInformationThread iit = new ItemInformationThread(itemId, p);
+        ItemInformationThread iit = new ItemInformationThread(itemId, p, this);
         iit.run();
         try {
             Thread.sleep(300);
@@ -61,7 +77,7 @@ public class ItemController {
             for (int i = 1067; i <= 1093; i++) {
                 int proxyNumber = i % 8;
                 Proxy p = proxies.get(proxyNumber);
-                ItemInformationThread iit = new ItemInformationThread(i, p);
+                ItemInformationThread iit = new ItemInformationThread(i, p, this);
                 iit.run();
                 Thread.sleep(300);
             }

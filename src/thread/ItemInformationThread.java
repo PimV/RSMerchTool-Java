@@ -5,6 +5,7 @@
  */
 package thread;
 
+import controller.ItemController;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class ItemInformationThread implements Runnable {
 
     protected int itemId;
     protected Proxy proxy;
+    protected ItemController itemController;
 
     /**
      * The thread which retrieves the information for an item. Required is an
@@ -36,9 +38,10 @@ public class ItemInformationThread implements Runnable {
      *
      * @param itemId
      */
-    public ItemInformationThread(int itemId, Proxy p) {
+    public ItemInformationThread(int itemId, Proxy p, ItemController ic) {
         this.itemId = itemId;
         this.proxy = p;
+        this.itemController = ic;
     }
 
     @Override
@@ -49,6 +52,7 @@ public class ItemInformationThread implements Runnable {
             ItemRow i = it.createRow();
             retrieveItemInformation(i);
             retrieveAccuratePriceInformation(i);
+            itemController.addItemToList(i);
 
         } catch (Exception e) {
             if (!(e instanceof FileNotFoundException)) {
@@ -120,8 +124,6 @@ public class ItemInformationThread implements Runnable {
         i.setID(this.itemId);
         i.setName(name);
         i.setDescription(description);
-        // i.setPrice(price);
-        // i.setCurrentTrend(currentTrend);
         i.setTodayPriceChange(todayPriceChange);
         i.setTodayTrend(todayTrend);
         i.setDay30Trend(day30Trend);
@@ -133,8 +135,6 @@ public class ItemInformationThread implements Runnable {
         i.setMembers(members);
         i.setCategory(category);
         i.setLastUpdated();
-        System.out.println(i);
-
         i.insertNewWithID();
         return i;
     }
