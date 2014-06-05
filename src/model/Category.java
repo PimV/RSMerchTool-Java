@@ -12,9 +12,9 @@ package model;
 public enum Category {
 
     MISCELLANEOUS(0, "Miscellaneous", "Random items"),
-    AMMO(1, "Miscellaneous", "Random items"),
-    ARROWS(2, "Miscellaneous", "Random items"),
-    BOLTS(3, "Miscellaneous", "Random items"),
+    AMMO(1, "Ammo", "All sorts of ammunition"),
+    ARROWS(2, "Arrows", "Arrows used in bows"),
+    BOLTS(3, "Bolts", "Bolts used in crossbows"),
     CONSTRUCTION_MATERIALS(4, "Miscellaneous", "Random items"),
     CONSTRUCTION_PROJECTS(5, "Miscellaneous", "Random items"),
     COOKING_INGREDIENTS(6, "Miscellaneous", "Random items"),
