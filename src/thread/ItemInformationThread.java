@@ -12,12 +12,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.ConnectException;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import model.Category;
+import model.CustomProxy;
+import model.ItemReader;
 import model.ORM.ItemRow;
 import model.ORM.ItemTable;
 import org.json.simple.JSONObject;
@@ -30,38 +31,46 @@ import org.json.simple.parser.JSONParser;
 public class ItemInformationThread implements Runnable {
 
     protected int itemId;
-    protected Proxy proxy;
+    protected CustomProxy proxy;
     protected ItemController itemController;
+    protected ItemReader itemReader;
 
     /**
      * The thread which retrieves the information for an item. Required is an
      * itemId.
      *
      * @param itemId
+     * @param p
+     * @param ic
+     * @param ir
      */
-    public ItemInformationThread(int itemId, Proxy p, ItemController ic) {
+    public ItemInformationThread(int itemId, CustomProxy p, ItemController ic, ItemReader ir) {
         this.itemId = itemId;
         this.proxy = p;
         this.itemController = ic;
+        this.itemReader = ir;
     }
 
     @Override
     public void run() {
         try {
-
+            itemController.showBusy(true);
             ItemTable it = new ItemTable();
             ItemRow i = it.createRow();
-
             retrieveItemInformation(i);
             retrieveAccuratePriceInformation(i);
+            System.out.println("Item retrieved: " + i);
             itemController.addItemToList(i);
+            itemController.updateInTable(i);
+            itemController.showBusy(false);
 
         } catch (Exception e) {
 
+            this.proxy.freeSlot();
             if (e instanceof FileNotFoundException) {
             } else {
-                System.err.println("Error retrieving item with itemId: " + this.itemId + ". -- RETRYING");
-                System.err.println(this.proxy.address());
+                // System.err.println("Error retrieving item with itemId: " + this.itemId + ". -- RETRYING");
+                // System.err.println(this.proxy.address());
                 e.printStackTrace();
                 itemController.reloadItem(itemId);
             }
@@ -70,19 +79,25 @@ public class ItemInformationThread implements Runnable {
     }
 
     private ItemRow retrieveItemInformation(ItemRow i) throws Exception {
+        long start = System.currentTimeMillis();
         URL itemInformation = new URL(getItemInformationURL());
         URLConnection conn;
         if (this.proxy != null) {
             conn = itemInformation.openConnection(this.proxy);
+
         } else {
             conn = itemInformation.openConnection();
         }
 
-        InputStream is = conn.getInputStream();
-//InputStream is = itemInformation.openStream();
+        conn.setConnectTimeout(2500);
 
+        InputStream is = conn.getInputStream();
+
+//InputStream is = itemInformation.openStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
         String json = (String) readAll(br);
+        long end = System.currentTimeMillis();
+        System.out.println("Length: " + (end - start));
 
         JSONObject rootObject = (JSONObject) new JSONParser().parse(json);
         JSONObject itemObject = (JSONObject) new JSONParser().parse(rootObject.get("item").toString());
@@ -124,6 +139,18 @@ public class ItemInformationThread implements Runnable {
         String day180Trend = day180Object.get("trend").toString();
         String day180Change = day180Object.get("change").toString();
 
+        //Todays date for last updated
+//        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+//
+//        Date today = Calendar.getInstance().getTime();
+//        String reportDate = df.format(today);
+        java.util.Date dt = new java.util.Date();
+
+        java.text.SimpleDateFormat sdf
+                = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String currentTime = sdf.format(dt);
+
         //Set values for this new Item
         i.setID(this.itemId);
         i.setName(name);
@@ -140,7 +167,7 @@ public class ItemInformationThread implements Runnable {
         i.setDay180Change(day180Change);
         i.setMembers(members);
         i.setCategory(category);
-        i.setLastUpdated();
+        i.setLastUpdated(currentTime);
         i.insertNewWithID();
         return i;
     }

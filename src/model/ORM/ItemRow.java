@@ -6,9 +6,12 @@
 package model.ORM;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Category;
 
 /**
@@ -117,13 +120,10 @@ public class ItemRow extends DbRow {
         set("category", category.getCategoryNumber() + "");
     }
 
-    public void setLastUpdated() {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    public void setLastUpdated(String reportDate) {
 
-        Date today = Calendar.getInstance().getTime();
-        String reportDate = df.format(today);
         this.lastUpdated = reportDate;
-        set("last_updated", getLastUpdated());
+        set("last_updated", reportDate);
     }
 
     public int getItemId() {
@@ -157,7 +157,12 @@ public class ItemRow extends DbRow {
     }
 
     public boolean isMembers() {
-        return this.members;
+        if (get("members").equals("1")) {
+            return true;
+        } else {
+            return false;
+        }
+        //return this.members;
     }
 
     public String getDay30Trend() {
@@ -196,13 +201,20 @@ public class ItemRow extends DbRow {
     }
 
     public String getLastUpdated() {
+
         java.util.Date dt = new java.util.Date();
 
         java.text.SimpleDateFormat sdf
                 = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            java.util.Date date = (Date) sdf.parse(get("last_updated"));
+            String currentTime = sdf.format(date);
+            return currentTime;
+        } catch (ParseException ex) {
+            return "";
+        }
 
-        String currentTime = sdf.format(dt);
-        return currentTime;
+//        return currentTime;
     }
 
     @Override

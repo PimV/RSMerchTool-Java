@@ -18,6 +18,7 @@ import model.ORM.ItemRow;
 public class MainFrame extends javax.swing.JFrame {
 
     private MainController controller;
+    private ItemRow selectedItem;
 
     /**
      * Creates new form MainFrame
@@ -47,6 +48,17 @@ public class MainFrame extends javax.swing.JFrame {
         itemList = new org.jdesktop.swingx.JXList();
         graphicPanel = new javax.swing.JPanel();
         itemPanel = new javax.swing.JPanel();
+        itemNameLabel = new javax.swing.JLabel();
+        itemNameValue = new javax.swing.JLabel();
+        itemDescriptionLabel = new javax.swing.JLabel();
+        itemDescriptionValue = new javax.swing.JLabel();
+        itemCategoryLabel = new javax.swing.JLabel();
+        itemCategoryValue = new javax.swing.JLabel();
+        itemMembersValue = new javax.swing.JLabel();
+        itemMembersLabel = new javax.swing.JLabel();
+        itemLastUpdatedLabel = new javax.swing.JLabel();
+        itemLastUpdatedValue = new javax.swing.JLabel();
+        busyLabel = new org.jdesktop.swingx.JXBusyLabel();
         mainMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
@@ -59,6 +71,17 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         itemList.setModel(new DefaultListModel<ItemRow>());
+        itemList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        itemList.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                itemListPropertyChange(evt);
+            }
+        });
+        itemList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                itemListValueChanged(evt);
+            }
+        });
         itemScrollPane.setViewportView(itemList);
 
         javax.swing.GroupLayout listPanelLayout = new javax.swing.GroupLayout(listPanel);
@@ -66,15 +89,16 @@ public class MainFrame extends javax.swing.JFrame {
         listPanelLayout.setHorizontalGroup(
             listPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(itemSearchField)
-            .addComponent(itemScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+            .addComponent(itemScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         listPanelLayout.setVerticalGroup(
             listPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(listPanelLayout.createSequentialGroup()
-                .addGap(5, 5, 5)
+                .addContainerGap()
                 .addComponent(itemSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(itemScrollPane))
+                .addComponent(itemScrollPane)
+                .addContainerGap())
         );
 
         graphicPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -88,20 +112,84 @@ public class MainFrame extends javax.swing.JFrame {
         );
         graphicPanelLayout.setVerticalGroup(
             graphicPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 171, Short.MAX_VALUE)
+            .addGap(0, 208, Short.MAX_VALUE)
         );
 
         itemPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        itemNameLabel.setText("Item:");
+
+        itemDescriptionLabel.setText("Description:");
+
+        itemCategoryLabel.setText("Category:");
+
+        itemMembersLabel.setText("Members:");
+
+        itemLastUpdatedLabel.setText("Last Updated:");
 
         javax.swing.GroupLayout itemPanelLayout = new javax.swing.GroupLayout(itemPanel);
         itemPanel.setLayout(itemPanelLayout);
         itemPanelLayout.setHorizontalGroup(
             itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 407, Short.MAX_VALUE)
+            .addGroup(itemPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(itemPanelLayout.createSequentialGroup()
+                        .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(itemPanelLayout.createSequentialGroup()
+                                .addComponent(itemDescriptionLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(itemDescriptionValue))
+                            .addGroup(itemPanelLayout.createSequentialGroup()
+                                .addComponent(itemNameLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(itemNameValue)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 512, Short.MAX_VALUE)
+                        .addComponent(busyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(itemPanelLayout.createSequentialGroup()
+                        .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(itemPanelLayout.createSequentialGroup()
+                                .addComponent(itemCategoryLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(itemCategoryValue))
+                            .addGroup(itemPanelLayout.createSequentialGroup()
+                                .addComponent(itemMembersLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(itemMembersValue))
+                            .addGroup(itemPanelLayout.createSequentialGroup()
+                                .addComponent(itemLastUpdatedLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(itemLastUpdatedValue)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         itemPanelLayout.setVerticalGroup(
             itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 196, Short.MAX_VALUE)
+            .addGroup(itemPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(itemPanelLayout.createSequentialGroup()
+                        .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(itemNameLabel)
+                            .addComponent(itemNameValue))
+                        .addGap(7, 7, 7)
+                        .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(itemDescriptionLabel)
+                            .addComponent(itemDescriptionValue)))
+                    .addComponent(busyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(itemCategoryLabel)
+                    .addComponent(itemCategoryValue))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(itemMembersLabel)
+                    .addComponent(itemMembersValue))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(itemLastUpdatedLabel)
+                    .addComponent(itemLastUpdatedValue))
+                .addContainerGap())
         );
 
         fileMenu.setText("File");
@@ -158,19 +246,23 @@ public class MainFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(listPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(graphicPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(itemPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(itemPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(listPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(itemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(itemPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(graphicPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(graphicPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(listPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -206,9 +298,23 @@ public class MainFrame extends javax.swing.JFrame {
     private void showAllItemsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAllItemsMenuItemActionPerformed
         clearList();
         this.controller.getItemController().showAllItems();
-        orderAlphabetically();
-
     }//GEN-LAST:event_showAllItemsMenuItemActionPerformed
+
+    private void itemListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_itemListValueChanged
+        if (!evt.getValueIsAdjusting()) {
+            if (itemList.getSelectedIndex() != -1) {
+                selectedItem = (ItemRow) itemList.getSelectedValue();
+                int itemId = selectedItem.getID();
+
+                this.controller.getItemController().reloadItem(itemId);
+                showSingleItem(selectedItem);
+            }
+        }
+    }//GEN-LAST:event_itemListValueChanged
+
+    private void itemListPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_itemListPropertyChange
+
+    }//GEN-LAST:event_itemListPropertyChange
 
     /**
      * @param args the command line arguments
@@ -254,10 +360,39 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
 
+    public synchronized void updateItemInList(final ItemRow item) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                DefaultListModel<ItemRow> model = (DefaultListModel<ItemRow>) itemList.getModel();
+                for (Object ir : model.toArray()) {
+                    ItemRow irInModel = (ItemRow) ir;
+                    if (irInModel.getItemId() == item.getItemId()) {
+                        ir = item;
+                        if (selectedItem.getItemId() == item.getItemId()) {
+                            showSingleItem(item);
+                        }
+
+                        break;
+                    }
+                }
+            }
+
+        });
+    }
+
     public void clearList() {
-
         itemList.setModel(new DefaultListModel<ItemRow>());
+    }
 
+    public void showSingleItem(ItemRow selectedItem) {
+        //ItemRow selectedItem = (ItemRow) itemList.getSelectedValue();
+        itemNameValue.setText(selectedItem.getName());
+        itemDescriptionValue.setText(selectedItem.getDescription());
+        itemCategoryValue.setText(selectedItem.getCategory().getNiceName());
+        itemMembersValue.setText(selectedItem.isMembers() + "");
+        itemLastUpdatedValue.setText(selectedItem.getLastUpdated());
     }
 
     public void orderAlphabetically() {
@@ -269,13 +404,27 @@ public class MainFrame extends javax.swing.JFrame {
         this.controller = controller;
     }
 
+    public void setBusy(boolean busy) {
+        busyLabel.setBusy(busy);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXBusyLabel busyLabel;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel graphicPanel;
+    private javax.swing.JLabel itemCategoryLabel;
+    private javax.swing.JLabel itemCategoryValue;
+    private javax.swing.JLabel itemDescriptionLabel;
+    private javax.swing.JLabel itemDescriptionValue;
+    private javax.swing.JLabel itemLastUpdatedLabel;
+    private javax.swing.JLabel itemLastUpdatedValue;
     private org.jdesktop.swingx.JXList itemList;
+    private javax.swing.JLabel itemMembersLabel;
+    private javax.swing.JLabel itemMembersValue;
     private javax.swing.JMenu itemMenu;
+    private javax.swing.JLabel itemNameLabel;
+    private javax.swing.JLabel itemNameValue;
     private javax.swing.JPanel itemPanel;
     private javax.swing.JScrollPane itemScrollPane;
     private javax.swing.JTextField itemSearchField;

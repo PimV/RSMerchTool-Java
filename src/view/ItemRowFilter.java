@@ -23,7 +23,7 @@ public class ItemRowFilter extends RowFilter {
     @Override
     public boolean include(Entry entry) {
         ItemRow item = (ItemRow) entry.getValue(0);
-        return item.getName().contains(compare);
+        return item.getName().toLowerCase().contains(compare.toLowerCase());
     }
 
 }

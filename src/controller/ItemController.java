@@ -40,13 +40,13 @@ public class ItemController {
         proxies.add(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("219.68.214.198", 8888)));
     }
 
-    public  void addItemToList(final ItemRow item) {
+    public void addItemToList(final ItemRow item) {
         Runnable r = new Runnable() {
 
             @Override
             public void run() {
                 mainController.getMainFrame().addItemToList(item);
-               
+
             }
         };
         r.run();
@@ -61,46 +61,37 @@ public class ItemController {
     }
 
     public void showAllItems() {
-
         ShowAllItemsThread sait = new ShowAllItemsThread(this.items, this);
         sait.run();
+    }
 
-//        ItemRowset irs = items.fetchAll();
-//        for (ItemRow ir : irs) {
-//            addItemToList(ir);
-//        }
-        // return irs;
+    public void showBusy(boolean busy) {
+        this.mainController.getMainFrame().setBusy(busy);
     }
 
     public void reloadItem(int itemId) {
-//        Random rnd = new Random();
-//        int proxyNumber = rnd.nextInt(7);
-//        Proxy p = proxies.get(proxyNumber);
-//        ItemInformationThread iit = new ItemInformationThread(itemId, p, this);
-//        iit.run();
-//        try {
-//            Thread.sleep(300);
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(ItemController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
         itemReader.retrieveItem(itemId);
     }
 
-    public void reloadAllItems() {
-//        try {
-//            for (int i = 1; i <= 16000; i++) {
-//                int proxyNumber = i % 8;
-//                Proxy p = proxies.get(proxyNumber);
-//                ItemInformationThread iit = new ItemInformationThread(i, p, this);
-//                iit.run();
-//                Thread.sleep(300);
-//            }
-//
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
+    public void updateInTable(ItemRow itemRow) {
+        items.replace(itemRow.getItemId(), itemRow);
+        updateInView(itemRow);
+    }
 
-        itemReader.retrieveAllItems();
+    public void updateInView(ItemRow itemRow) {
+        this.mainController.getMainFrame().updateItemInList(itemRow);
+    }
+
+    public void reloadAllItems() {
+        Runnable r = new Runnable() {
+
+            @Override
+            public void run() {
+                itemReader.retrieveAllItems();
+            }
+
+        };
+        r.run();
 
     }
 

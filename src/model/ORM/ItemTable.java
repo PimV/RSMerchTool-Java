@@ -53,8 +53,9 @@ public class ItemTable extends DbTable<ItemRow> {
 
                     for (String columnName : this.getColumns()) {
                         ir.set(columnName, res.getString(columnName));
-                       // System.out.println(columnName + ": " + res.getString(columnName));
+                        // System.out.println(columnName + ": " + res.getString(columnName));
                     }
+                    ir.setID(Integer.parseInt(res.getString(this.getIdField())));
                     list.add(ir);
                 }
             } catch (SQLException e) {
@@ -86,6 +87,15 @@ public class ItemTable extends DbTable<ItemRow> {
             System.err.println(e);
         }
         return ir;
+    }
+
+    public void replace(int itemId, ItemRow itemRow) {
+        for (ItemRow ir : list) {
+            if (ir.getItemId() == itemId) {
+                ir = itemRow;
+                break;
+            }
+        }
     }
 
     public void addItem(ItemRow item) {

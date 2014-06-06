@@ -134,6 +134,7 @@ public class DbRow<T> {
         }
     }
 
+    //SUBFUNCTIES!!
     public void insertNewWithID() {
         //Create new row
         String query = "INSERT INTO " + DbTable.DATABASE_NAME + "."

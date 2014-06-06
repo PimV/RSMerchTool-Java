@@ -21,14 +21,13 @@ public class RSMerchToolJava {
     public static void main(String[] args) throws InterruptedException {
         MainFrame mainFrame = new MainFrame();
         MainController mainController = new MainController();
-        
+
         mainController.setMainFrame(mainFrame);
         mainFrame.setController(mainController);
 
-        mainController.getItemController().reloadItem(2);
-        
+      //  mainController.getItemController().showAllItems();
         //  mainController.getItemController().showAllItems();
-       // mainController.getItemController().reloadItem(2);
+        // mainController.getItemController().reloadItem(2);
     }
-    
+
 }
