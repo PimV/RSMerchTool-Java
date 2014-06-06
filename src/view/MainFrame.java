@@ -7,6 +7,7 @@ package view;
 
 import controller.MainController;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentListener;
 import model.ORM.ItemRow;
 
@@ -25,8 +26,7 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         this.setVisible(true);
 
-        itemList.setAutoCreateRowSorter(true);
-        itemList.toggleSortOrder();
+        orderAlphabetically();
 
         DocumentListener listener = new ItemSearchFieldListener(itemList);
         itemSearchField.getDocument().addDocumentListener(listener);
@@ -51,6 +51,7 @@ public class MainFrame extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
         itemMenu = new javax.swing.JMenu();
+        showAllItemsMenuItem = new javax.swing.JMenuItem();
         reloadAllItemsMenuItem = new javax.swing.JMenuItem();
         offerMenu = new javax.swing.JMenu();
         newOfferMenuItem = new javax.swing.JMenuItem();
@@ -118,6 +119,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         itemMenu.setText("Items");
 
+        showAllItemsMenuItem.setText("Show all items");
+        showAllItemsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showAllItemsMenuItemActionPerformed(evt);
+            }
+        });
+        itemMenu.add(showAllItemsMenuItem);
+
         reloadAllItemsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         reloadAllItemsMenuItem.setText("Reload all items...");
         reloadAllItemsMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -172,12 +181,34 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void reloadAllItemsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reloadAllItemsMenuItemActionPerformed
-        this.controller.getItemController().reloadAllItems();
+        Object[] options = {
+            "Yes, reload all!",
+            "No, thanks"};
+        int n = JOptionPane.showOptionDialog(this,
+                "Are you sure you want to reload ALL items? This can take"
+                + "up to five hours!",
+                "Caution! Are you sure?",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                options,
+                null);
+        if (n == JOptionPane.OK_OPTION) {
+            this.controller.getItemController().reloadAllItems();
+        }
+
     }//GEN-LAST:event_reloadAllItemsMenuItemActionPerformed
 
     private void newOfferMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newOfferMenuItemActionPerformed
         this.controller.getOfferController().createNewOffer();
     }//GEN-LAST:event_newOfferMenuItemActionPerformed
+
+    private void showAllItemsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAllItemsMenuItemActionPerformed
+        clearList();
+        this.controller.getItemController().showAllItems();
+        orderAlphabetically();
+
+    }//GEN-LAST:event_showAllItemsMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,6 +254,17 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
 
+    public void clearList() {
+
+        itemList.setModel(new DefaultListModel<ItemRow>());
+
+    }
+
+    public void orderAlphabetically() {
+        itemList.setAutoCreateRowSorter(true);
+        itemList.toggleSortOrder();
+    }
+
     public void setController(MainController controller) {
         this.controller = controller;
     }
@@ -242,5 +284,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem newOfferMenuItem;
     private javax.swing.JMenu offerMenu;
     private javax.swing.JMenuItem reloadAllItemsMenuItem;
+    private javax.swing.JMenuItem showAllItemsMenuItem;
     // End of variables declaration//GEN-END:variables
 }

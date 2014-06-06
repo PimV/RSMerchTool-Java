@@ -8,14 +8,11 @@ package controller;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.ItemReader;
 import model.ORM.ItemRow;
 import model.ORM.ItemRowset;
 import model.ORM.ItemTable;
-import thread.ItemInformationThread;
+import thread.ShowAllItemsThread;
 
 /**
  *
@@ -43,8 +40,17 @@ public class ItemController {
         proxies.add(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("219.68.214.198", 8888)));
     }
 
-    public void addItemToList(ItemRow item) {
-        mainController.getMainFrame().addItemToList(item);
+    public  void addItemToList(final ItemRow item) {
+        Runnable r = new Runnable() {
+
+            @Override
+            public void run() {
+                mainController.getMainFrame().addItemToList(item);
+               
+            }
+        };
+        r.run();
+
     }
 
     public ItemRow getItem(int itemId) {
@@ -54,12 +60,16 @@ public class ItemController {
         return fetchedItem;
     }
 
-    public ItemRowset getAllItems() {
-        ItemRowset irs = items.fetchAll();
-        for (ItemRow ir : irs) {
-            addItemToList(ir);
-        }
-        return irs;
+    public void showAllItems() {
+
+        ShowAllItemsThread sait = new ShowAllItemsThread(this.items, this);
+        sait.run();
+
+//        ItemRowset irs = items.fetchAll();
+//        for (ItemRow ir : irs) {
+//            addItemToList(ir);
+//        }
+        // return irs;
     }
 
     public void reloadItem(int itemId) {

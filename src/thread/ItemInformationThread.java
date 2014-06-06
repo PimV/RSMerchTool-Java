@@ -48,7 +48,7 @@ public class ItemInformationThread implements Runnable {
     @Override
     public void run() {
         try {
-            // Item i = new Item();
+
             ItemTable it = new ItemTable();
             ItemRow i = it.createRow();
 
@@ -58,11 +58,7 @@ public class ItemInformationThread implements Runnable {
 
         } catch (Exception e) {
 
-//            if (e instanceof ConnectException) {
-//                itemController.reloadItem(itemId);
-//            } else 
             if (e instanceof FileNotFoundException) {
-                System.out.println("FileNotFoundException" + ": " + this.itemId);
             } else {
                 System.err.println("Error retrieving item with itemId: " + this.itemId + ". -- RETRYING");
                 System.err.println(this.proxy.address());
@@ -75,7 +71,12 @@ public class ItemInformationThread implements Runnable {
 
     private ItemRow retrieveItemInformation(ItemRow i) throws Exception {
         URL itemInformation = new URL(getItemInformationURL());
-        URLConnection conn = itemInformation.openConnection(this.proxy);
+        URLConnection conn;
+        if (this.proxy != null) {
+            conn = itemInformation.openConnection(this.proxy);
+        } else {
+            conn = itemInformation.openConnection();
+        }
 
         InputStream is = conn.getInputStream();
 //InputStream is = itemInformation.openStream();

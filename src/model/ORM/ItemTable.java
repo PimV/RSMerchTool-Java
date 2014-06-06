@@ -53,7 +53,7 @@ public class ItemTable extends DbTable<ItemRow> {
 
                     for (String columnName : this.getColumns()) {
                         ir.set(columnName, res.getString(columnName));
-                        System.out.println(columnName + ": " + res.getString(columnName));
+                       // System.out.println(columnName + ": " + res.getString(columnName));
                     }
                     list.add(ir);
                 }

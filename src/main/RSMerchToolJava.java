@@ -27,7 +27,7 @@ public class RSMerchToolJava {
 
         mainController.getItemController().reloadItem(2);
         
-        //  mainController.getItemController().getAllItems();
+        //  mainController.getItemController().showAllItems();
        // mainController.getItemController().reloadItem(2);
     }
     

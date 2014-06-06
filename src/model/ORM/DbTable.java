@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author PimGame
  */
-public class DbTable<T> {
+public abstract class DbTable<T> {
 
     //Table Name
     private String name;
@@ -56,5 +56,9 @@ public class DbTable<T> {
             e.printStackTrace();
         }
     }
+
+    public abstract DbRowset fetchAll();
+
+    public abstract DbRow fetch(int id);
 
 }
