@@ -42,16 +42,25 @@ public class Player
         InputStream inputStream = UrlCon.getInputStream();
 
         BufferedReader buffReader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
-        
+
         String inputLine = "";
-        while (!(inputLine = buffReader.readLine()).equals(""))
+
+        while (buffReader.ready())
           {
+            inputLine = buffReader.readLine();
 
-            String parts[] = inputLine.split(",");
+            if (inputLine != null && !inputLine.isEmpty())
+              {
+                String parts[] = inputLine.split(",");
 
+                for (String part : parts)
+                  {
+                    System.out.println(part);
+                  }
 //            part[1] = rank;
 //            part[2] = level;
 //            part[3] = exp;
+              }
           }
       }
 
