@@ -5,11 +5,10 @@
  */
 package model.ORM;
 
-import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Category;
@@ -163,6 +162,16 @@ public class ItemRow extends DbRow {
         } else {
             return -1;
         }
+    }
+
+    public String getAccuratePriceString() {
+        if (get("accurate_price") != null && !get("accurate_price").isEmpty()) {
+
+            String str = String.format("%,d", getAccuratePrice());
+            return str;
+        }
+        return "-1";
+
     }
 
     public String getTodayPriceChange() {

@@ -18,6 +18,7 @@ import org.jdesktop.swingx.JXList;
 public class ItemSearchFieldListener implements DocumentListener {
 
     private JXList list;
+    private ItemRowFilter irf;
 
     public ItemSearchFieldListener(JXList list) {
         this.list = list;
@@ -42,11 +43,16 @@ public class ItemSearchFieldListener implements DocumentListener {
         String text;
         try {
             text = doc.getText(0, doc.getLength());
-            list.setRowFilter(text.length() > 0 ? new ItemRowFilter(text) : null);
+
+            list.setRowFilter(text.length() > 0 ? irf = new ItemRowFilter(text) : null);
         } catch (BadLocationException ex) {
             ex.printStackTrace();
         }
 
+    }
+
+    public ItemRowFilter getFilter() {
+        return irf;
     }
 
 }

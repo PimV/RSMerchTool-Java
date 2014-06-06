@@ -6,8 +6,11 @@
 package thread;
 
 import controller.ItemController;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -64,7 +67,7 @@ public class ItemInformationThread implements Runnable {
             i.insertNewWithID();
 
             System.out.println("Item retrieved: " + i);
-            itemController.addItemToList(i);
+            //itemController.addItemToList(i);
             itemController.updateInTable(i);
             itemController.showBusy(false);
 
@@ -119,6 +122,7 @@ public class ItemInformationThread implements Runnable {
         }
         String categoryString = itemObject.get("type").toString();
         Category category = Category.getByNiceName(categoryString);
+        String imageURL = itemObject.get("icon_large").toString();
 
         //Extract currentObject
         String currentTrend = currentObject.get("trend").toString();
@@ -170,6 +174,7 @@ public class ItemInformationThread implements Runnable {
         i.setMembers(members);
         i.setCategory(category);
         i.setLastUpdated(currentTime);
+        downloadImage(imageURL, i);
 
         return i;
     }
@@ -211,6 +216,27 @@ public class ItemInformationThread implements Runnable {
         i.setAccuratePrice(accuratePrice);
 
         return i;
+    }
+
+    private void downloadImage(String urlString, ItemRow item) throws Exception {
+        URL url = new URL(urlString);
+        InputStream in = new BufferedInputStream(url.openStream());
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        int n = 0;
+        while (-1 != (n = in.read(buf))) {
+            out.write(buf, 0, n);
+        }
+        out.close();
+        in.close();
+        byte[] response = out.toByteArray();
+
+        FileOutputStream fos
+                = new FileOutputStream(
+                        "C://RSMerchTool//RSMerchTool-Java//images//" + item.getItemId() + ".jpg"
+                );
+        fos.write(response);
+        fos.close();
     }
 
     private String readAll(Reader reader) throws IOException {

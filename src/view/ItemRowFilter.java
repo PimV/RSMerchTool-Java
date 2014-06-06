@@ -18,12 +18,17 @@ public class ItemRowFilter extends RowFilter {
 
     public ItemRowFilter(String compare) {
         this.compare = compare;
+
     }
 
     @Override
     public boolean include(Entry entry) {
         ItemRow item = (ItemRow) entry.getValue(0);
         return item.getName().toLowerCase().contains(compare.toLowerCase());
+    }
+
+    public String getType() {
+        return "SearchFilter";
     }
 
 }

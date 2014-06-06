@@ -6,6 +6,10 @@
 package view;
 
 import controller.MainController;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentListener;
@@ -58,15 +62,22 @@ public class MainFrame extends javax.swing.JFrame {
         itemMembersLabel = new javax.swing.JLabel();
         itemLastUpdatedLabel = new javax.swing.JLabel();
         itemLastUpdatedValue = new javax.swing.JLabel();
-        busyLabel = new org.jdesktop.swingx.JXBusyLabel();
         itemAccuratePriceValue = new javax.swing.JLabel();
         itemAccuratePriceLabel = new javax.swing.JLabel();
+        itemImage = new org.jdesktop.swingx.JXImageView();
+        busyPanel = new javax.swing.JPanel();
+        busyLabel = new org.jdesktop.swingx.JXBusyLabel();
+        refreshItemButton = new org.jdesktop.swingx.JXButton();
+        createOfferButton = new org.jdesktop.swingx.JXButton();
+        favoriteItemButton = new org.jdesktop.swingx.JXButton();
         mainMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
         itemMenu = new javax.swing.JMenu();
         showAllItemsMenuItem = new javax.swing.JMenuItem();
         reloadAllItemsMenuItem = new javax.swing.JMenuItem();
+        itemFilterMenu = new javax.swing.JMenu();
+        toggleMemberItems = new javax.swing.JCheckBoxMenuItem();
         offerMenu = new javax.swing.JMenu();
         newOfferMenuItem = new javax.swing.JMenuItem();
 
@@ -74,11 +85,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         itemList.setModel(new DefaultListModel<ItemRow>());
         itemList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        itemList.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                itemListPropertyChange(evt);
-            }
-        });
         itemList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 itemListValueChanged(evt);
@@ -114,7 +120,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         graphicPanelLayout.setVerticalGroup(
             graphicPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 208, Short.MAX_VALUE)
+            .addGap(0, 204, Short.MAX_VALUE)
         );
 
         itemPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -130,6 +136,63 @@ public class MainFrame extends javax.swing.JFrame {
         itemLastUpdatedLabel.setText("Last Updated:");
 
         itemAccuratePriceLabel.setText("Price (gp):");
+
+        itemImage.setBorder(new javax.swing.border.MatteBorder(null));
+        itemImage.setEditable(false);
+        itemImage.setEnabled(false);
+
+        javax.swing.GroupLayout itemImageLayout = new javax.swing.GroupLayout(itemImage);
+        itemImage.setLayout(itemImageLayout);
+        itemImageLayout.setHorizontalGroup(
+            itemImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        itemImageLayout.setVerticalGroup(
+            itemImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout busyPanelLayout = new javax.swing.GroupLayout(busyPanel);
+        busyPanel.setLayout(busyPanelLayout);
+        busyPanelLayout.setHorizontalGroup(
+            busyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 56, Short.MAX_VALUE)
+            .addGroup(busyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(busyPanelLayout.createSequentialGroup()
+                    .addGap(0, 0, 0)
+                    .addComponent(busyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, 0)))
+        );
+        busyPanelLayout.setVerticalGroup(
+            busyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 48, Short.MAX_VALUE)
+            .addGroup(busyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(busyPanelLayout.createSequentialGroup()
+                    .addGap(0, 0, 0)
+                    .addComponent(busyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, 0)))
+        );
+
+        refreshItemButton.setText("Refresh item");
+        refreshItemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshItemButtonActionPerformed(evt);
+            }
+        });
+
+        createOfferButton.setText("Create offer");
+        createOfferButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createOfferButtonActionPerformed(evt);
+            }
+        });
+
+        favoriteItemButton.setText("Favorite");
+        favoriteItemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                favoriteItemButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout itemPanelLayout = new javax.swing.GroupLayout(itemPanel);
         itemPanel.setLayout(itemPanelLayout);
@@ -147,11 +210,7 @@ public class MainFrame extends javax.swing.JFrame {
                             .addGroup(itemPanelLayout.createSequentialGroup()
                                 .addComponent(itemNameLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(itemNameValue)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 512, Short.MAX_VALUE)
-                        .addComponent(busyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(itemPanelLayout.createSequentialGroup()
-                        .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(itemNameValue))
                             .addGroup(itemPanelLayout.createSequentialGroup()
                                 .addComponent(itemCategoryLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -161,46 +220,64 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(itemMembersValue))
                             .addGroup(itemPanelLayout.createSequentialGroup()
-                                .addComponent(itemLastUpdatedLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(itemLastUpdatedValue))
-                            .addGroup(itemPanelLayout.createSequentialGroup()
                                 .addComponent(itemAccuratePriceLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(itemAccuratePriceValue)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(itemImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(busyPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(itemPanelLayout.createSequentialGroup()
+                        .addComponent(itemLastUpdatedLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(itemLastUpdatedValue)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 256, Short.MAX_VALUE)
+                        .addComponent(favoriteItemButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(createOfferButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(refreshItemButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         itemPanelLayout.setVerticalGroup(
             itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(itemPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(itemPanelLayout.createSequentialGroup()
+                        .addGap(5, 5, 5)
                         .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(itemNameLabel)
                             .addComponent(itemNameValue))
                         .addGap(7, 7, 7)
                         .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(itemDescriptionLabel)
-                            .addComponent(itemDescriptionValue)))
-                    .addComponent(busyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(itemCategoryLabel)
-                    .addComponent(itemCategoryValue))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(itemMembersLabel)
-                    .addComponent(itemMembersValue))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(itemAccuratePriceLabel)
-                    .addComponent(itemAccuratePriceValue))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(itemLastUpdatedLabel)
-                    .addComponent(itemLastUpdatedValue))
+                            .addComponent(itemDescriptionValue))
+                        .addGap(8, 8, 8)
+                        .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(itemCategoryLabel)
+                            .addComponent(itemCategoryValue))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(itemMembersLabel)
+                            .addComponent(itemMembersValue))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(itemAccuratePriceLabel)
+                            .addComponent(itemAccuratePriceValue)))
+                    .addComponent(itemImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(itemPanelLayout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(busyPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(itemLastUpdatedLabel)
+                        .addComponent(itemLastUpdatedValue))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(refreshItemButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(createOfferButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(favoriteItemButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -235,6 +312,19 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         itemMenu.add(reloadAllItemsMenuItem);
+
+        itemFilterMenu.setText(" Filters");
+
+        toggleMemberItems.setSelected(true);
+        toggleMemberItems.setText("Hide member items");
+        toggleMemberItems.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleMemberItemsActionPerformed(evt);
+            }
+        });
+        itemFilterMenu.add(toggleMemberItems);
+
+        itemMenu.add(itemFilterMenu);
 
         mainMenuBar.add(itemMenu);
 
@@ -324,9 +414,26 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_itemListValueChanged
 
-    private void itemListPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_itemListPropertyChange
+    private void refreshItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshItemButtonActionPerformed
+        if (selectedItem != null) {
+            int itemId = selectedItem.getID();
 
-    }//GEN-LAST:event_itemListPropertyChange
+            this.controller.getItemController().reloadItem(itemId);
+            showSingleItem(selectedItem);
+        }
+    }//GEN-LAST:event_refreshItemButtonActionPerformed
+
+    private void createOfferButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createOfferButtonActionPerformed
+        this.controller.getOfferController().createNewOffer();
+    }//GEN-LAST:event_createOfferButtonActionPerformed
+
+    private void favoriteItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_favoriteItemButtonActionPerformed
+        System.out.println("Favoriting is not implemented yet.");
+    }//GEN-LAST:event_favoriteItemButtonActionPerformed
+
+    private void toggleMemberItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleMemberItemsActionPerformed
+        toggleMembers();
+    }//GEN-LAST:event_toggleMemberItemsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -385,13 +492,20 @@ public class MainFrame extends javax.swing.JFrame {
                         if (selectedItem.getItemId() == item.getItemId()) {
                             showSingleItem(item);
                         }
-
                         break;
                     }
                 }
             }
 
         });
+    }
+
+    public void toggleMembers() {
+        if (toggleMemberItems.isSelected()) {
+            itemList.setRowFilter(new ItemMemberFilter());
+        } else {
+            itemList.setRowFilter(null);
+        }
     }
 
     public void clearList() {
@@ -405,7 +519,12 @@ public class MainFrame extends javax.swing.JFrame {
         itemCategoryValue.setText(selectedItem.getCategory().getNiceName());
         itemMembersValue.setText(selectedItem.isMembers() + "");
         itemLastUpdatedValue.setText(selectedItem.getLastUpdated());
-        itemAccuratePriceValue.setText(selectedItem.getAccuratePrice() + "");
+        itemAccuratePriceValue.setText(selectedItem.getAccuratePriceString() + "gp");
+        try {
+            itemImage.setImage(new File("C://RSMerchTool//RSMerchTool-Java//images//" + selectedItem.getItemId() + ".jpg"));
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void orderAlphabetically() {
@@ -418,12 +537,16 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public void setBusy(boolean busy) {
+        busyLabel.setVisible(busy);
         busyLabel.setBusy(busy);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXBusyLabel busyLabel;
+    private javax.swing.JPanel busyPanel;
+    private org.jdesktop.swingx.JXButton createOfferButton;
     private javax.swing.JMenuItem exitMenuItem;
+    private org.jdesktop.swingx.JXButton favoriteItemButton;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel graphicPanel;
     private javax.swing.JLabel itemAccuratePriceLabel;
@@ -432,6 +555,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel itemCategoryValue;
     private javax.swing.JLabel itemDescriptionLabel;
     private javax.swing.JLabel itemDescriptionValue;
+    private javax.swing.JMenu itemFilterMenu;
+    private org.jdesktop.swingx.JXImageView itemImage;
     private javax.swing.JLabel itemLastUpdatedLabel;
     private javax.swing.JLabel itemLastUpdatedValue;
     private org.jdesktop.swingx.JXList itemList;
@@ -443,11 +568,14 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel itemPanel;
     private javax.swing.JScrollPane itemScrollPane;
     private javax.swing.JTextField itemSearchField;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel listPanel;
     private javax.swing.JMenuBar mainMenuBar;
     private javax.swing.JMenuItem newOfferMenuItem;
     private javax.swing.JMenu offerMenu;
+    private org.jdesktop.swingx.JXButton refreshItemButton;
     private javax.swing.JMenuItem reloadAllItemsMenuItem;
     private javax.swing.JMenuItem showAllItemsMenuItem;
+    private javax.swing.JCheckBoxMenuItem toggleMemberItems;
     // End of variables declaration//GEN-END:variables
 }
