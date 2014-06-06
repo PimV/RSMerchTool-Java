@@ -84,4 +84,8 @@ public class ItemReader {
         return this.busy;
     }
 
+    public ItemController getItemController() {
+        return this.itemController;
+    }
+
 }

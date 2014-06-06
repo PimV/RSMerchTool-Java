@@ -59,6 +59,8 @@ public class MainFrame extends javax.swing.JFrame {
         itemLastUpdatedLabel = new javax.swing.JLabel();
         itemLastUpdatedValue = new javax.swing.JLabel();
         busyLabel = new org.jdesktop.swingx.JXBusyLabel();
+        itemAccuratePriceValue = new javax.swing.JLabel();
+        itemAccuratePriceLabel = new javax.swing.JLabel();
         mainMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
@@ -127,6 +129,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         itemLastUpdatedLabel.setText("Last Updated:");
 
+        itemAccuratePriceLabel.setText("Price (gp):");
+
         javax.swing.GroupLayout itemPanelLayout = new javax.swing.GroupLayout(itemPanel);
         itemPanel.setLayout(itemPanelLayout);
         itemPanelLayout.setHorizontalGroup(
@@ -159,7 +163,11 @@ public class MainFrame extends javax.swing.JFrame {
                             .addGroup(itemPanelLayout.createSequentialGroup()
                                 .addComponent(itemLastUpdatedLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(itemLastUpdatedValue)))
+                                .addComponent(itemLastUpdatedValue))
+                            .addGroup(itemPanelLayout.createSequentialGroup()
+                                .addComponent(itemAccuratePriceLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(itemAccuratePriceValue)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -185,7 +193,11 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(itemMembersLabel)
                     .addComponent(itemMembersValue))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(itemAccuratePriceLabel)
+                    .addComponent(itemAccuratePriceValue))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(itemLastUpdatedLabel)
                     .addComponent(itemLastUpdatedValue))
@@ -393,6 +405,7 @@ public class MainFrame extends javax.swing.JFrame {
         itemCategoryValue.setText(selectedItem.getCategory().getNiceName());
         itemMembersValue.setText(selectedItem.isMembers() + "");
         itemLastUpdatedValue.setText(selectedItem.getLastUpdated());
+        itemAccuratePriceValue.setText(selectedItem.getAccuratePrice() + "");
     }
 
     public void orderAlphabetically() {
@@ -413,6 +426,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JPanel graphicPanel;
+    private javax.swing.JLabel itemAccuratePriceLabel;
+    private javax.swing.JLabel itemAccuratePriceValue;
     private javax.swing.JLabel itemCategoryLabel;
     private javax.swing.JLabel itemCategoryValue;
     private javax.swing.JLabel itemDescriptionLabel;

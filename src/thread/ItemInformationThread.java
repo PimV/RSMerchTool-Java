@@ -12,10 +12,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import model.Category;
 import model.CustomProxy;
 import model.ItemReader;
@@ -59,6 +61,8 @@ public class ItemInformationThread implements Runnable {
             ItemRow i = it.createRow();
             retrieveItemInformation(i);
             retrieveAccuratePriceInformation(i);
+            i.insertNewWithID();
+
             System.out.println("Item retrieved: " + i);
             itemController.addItemToList(i);
             itemController.updateInTable(i);
@@ -92,8 +96,6 @@ public class ItemInformationThread implements Runnable {
         conn.setConnectTimeout(2500);
 
         InputStream is = conn.getInputStream();
-
-//InputStream is = itemInformation.openStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
         String json = (String) readAll(br);
         long end = System.currentTimeMillis();
@@ -168,11 +170,46 @@ public class ItemInformationThread implements Runnable {
         i.setMembers(members);
         i.setCategory(category);
         i.setLastUpdated(currentTime);
-        i.insertNewWithID();
+
         return i;
     }
 
-    private ItemRow retrieveAccuratePriceInformation(ItemRow i) {
+    private ItemRow retrieveAccuratePriceInformation(ItemRow i) throws Exception {
+        long start = System.currentTimeMillis();
+        URL itemInformation = new URL(getAccurateItemPriceURL());
+        URLConnection conn;
+        if (this.proxy != null) {
+            conn = itemInformation.openConnection(this.proxy);
+        } else {
+            conn = itemInformation.openConnection();
+        }
+
+        conn.setConnectTimeout(5000);
+        InputStream is = conn.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+        String json = (String) readAll(br);
+        long end = System.currentTimeMillis();
+        System.out.println("Length: " + (end - start));
+
+        JSONObject rootObject = (JSONObject) new JSONParser().parse(json);
+        JSONObject dailyObject = (JSONObject) new JSONParser().parse(rootObject.get("daily").toString());
+
+        Object[] keys = dailyObject.keySet().toArray();
+        Object[] values = dailyObject.entrySet().toArray();
+
+        TreeMap<String, String> daily = new TreeMap<>();
+        for (int x = 0; x < keys.length; x++) {
+            daily.put(keys[x].toString(), values[x].toString());
+        }
+
+        SortedSet<String> sortedKeys = new TreeSet<String>(daily.keySet());
+        String value = "";
+        for (String key : sortedKeys) {
+            value = daily.get(key).split("=")[1];
+        }
+        int accuratePrice = Integer.parseInt(value);
+        i.setAccuratePrice(accuratePrice);
+
         return i;
     }
 

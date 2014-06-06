@@ -36,6 +36,7 @@ public class ItemRow extends DbRow {
     private String day180Change;
     private Category category;
     private String lastUpdated;
+    private int accuratePrice;
 
     public ItemRow() {
 
@@ -54,6 +55,11 @@ public class ItemRow extends DbRow {
     public void setCurrentPrice(String currentPrice) {
         this.currentPrice = currentPrice;
         set("current_price", currentPrice);
+    }
+
+    public void setAccuratePrice(int accuratePrice) {
+        this.accuratePrice = accuratePrice;
+        set("accurate_price", accuratePrice + "");
     }
 
     public void setName(String name) {
@@ -149,6 +155,14 @@ public class ItemRow extends DbRow {
     public String getTodayTrend() {
         return get("today_trend");
         // return this.todayTrend;
+    }
+
+    public int getAccuratePrice() {
+        if (get("accurate_price") != null && !get("accurate_price").isEmpty()) {
+            return Integer.parseInt(get("accurate_price"));
+        } else {
+            return -1;
+        }
     }
 
     public String getTodayPriceChange() {
