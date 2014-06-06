@@ -58,12 +58,14 @@ public class ItemInformationThread implements Runnable {
 
         } catch (Exception e) {
 
-            if (e instanceof ConnectException) {
-                itemController.reloadItem(itemId);
-            } else if (e instanceof FileNotFoundException) {
+//            if (e instanceof ConnectException) {
+//                itemController.reloadItem(itemId);
+//            } else 
+            if (e instanceof FileNotFoundException) {
                 System.out.println("FileNotFoundException" + ": " + this.itemId);
             } else {
                 System.err.println("Error retrieving item with itemId: " + this.itemId + ". -- RETRYING");
+                System.err.println(this.proxy.address());
                 e.printStackTrace();
                 itemController.reloadItem(itemId);
             }

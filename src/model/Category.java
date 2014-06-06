@@ -16,7 +16,7 @@ public enum Category {
     ARROWS(2, "Arrows", "Arrows used in bows"),
     BOLTS(3, "Bolts", "Bolts used in crossbows"),
     CONSTRUCTION_MATERIALS(4, "Construction materials", "Random items"),
-    CONSTRUCTION_PROJECTS(5, "Construction projects", "Random items"),
+    CONSTRUCTION_PRODUCTS(5, "Construction products", "Random items"),
     COOKING_INGREDIENTS(6, "Cooking ingredients", "Random items"),
     COSTUMES(7, "Costumes", "Random items"),
     CRAFTING_MATERIALS(8, "Crafting materials", "Random items"),

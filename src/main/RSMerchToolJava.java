@@ -6,7 +6,7 @@
 package main;
 
 import controller.MainController;
-import model.ORM.ItemTable;
+import model.ProxyGenerator;
 import view.MainFrame;
 
 /**
@@ -25,8 +25,10 @@ public class RSMerchToolJava {
         mainController.setMainFrame(mainFrame);
         mainFrame.setController(mainController);
 
-        //  mainController.getItemController().getAllItems();
         mainController.getItemController().reloadItem(2);
+        
+        //  mainController.getItemController().getAllItems();
+       // mainController.getItemController().reloadItem(2);
     }
     
 }
