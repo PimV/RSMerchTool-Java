@@ -25,6 +25,7 @@ public class ItemTable extends DbTable<ItemRow> {
         setIdField("id");
         columns.add("name");
         columns.add("description");
+        columns.add("current_trend");
         columns.add("current_price");
         columns.add("category");
         columns.add("members");

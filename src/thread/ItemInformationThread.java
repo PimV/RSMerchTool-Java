@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.ConnectException;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
@@ -56,10 +57,17 @@ public class ItemInformationThread implements Runnable {
             itemController.addItemToList(i);
 
         } catch (Exception e) {
-            if (!(e instanceof FileNotFoundException)) {
-                System.err.println("Error retrieving item with itemId: " + this.itemId);
+
+            if (e instanceof ConnectException) {
+                itemController.reloadItem(itemId);
+            } else if (e instanceof FileNotFoundException) {
+                System.out.println("FileNotFoundException" + ": " + this.itemId);
+            } else {
+                System.err.println("Error retrieving item with itemId: " + this.itemId + ". -- RETRYING");
                 e.printStackTrace();
+                itemController.reloadItem(itemId);
             }
+
         }
     }
 
@@ -90,19 +98,11 @@ public class ItemInformationThread implements Runnable {
             members = true;
         }
         String categoryString = itemObject.get("type").toString();
-        //categoryString = categoryString.replace(' ', '_');
-        //categoryString = categoryString.toUpperCase();
         Category category = Category.getByNiceName(categoryString);
 
         //Extract currentObject
         String currentTrend = currentObject.get("trend").toString();
-        String priceString = currentObject.get("price").toString();
-        int price = -1;
-        try {
-            price = Integer.parseInt(priceString);
-        } catch (Exception e) {
-            price = -11;
-        }
+        String currentPrice = currentObject.get("price").toString();
 
         //Extract todayObject
         String todayTrend = todayObject.get("trend").toString();
@@ -125,6 +125,8 @@ public class ItemInformationThread implements Runnable {
         i.setID(this.itemId);
         i.setName(name);
         i.setDescription(description);
+        i.setCurrentTrend(currentTrend);
+        i.setCurrentPrice(currentPrice);
         i.setTodayPriceChange(todayPriceChange);
         i.setTodayTrend(todayTrend);
         i.setDay30Trend(day30Trend);

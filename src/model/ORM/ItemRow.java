@@ -20,7 +20,7 @@ public class ItemRow extends DbRow {
     private int itemId;
     private String name;
     private String description;
-    private int currentPrice;
+    private String currentPrice;
     private String currentTrend;
     private String todayTrend;
     private String todayPriceChange;
@@ -43,10 +43,14 @@ public class ItemRow extends DbRow {
         setID(itemId);
     }
 
-    public void setCurrentPrice(int currentPrice) {
-        this.currentPrice = currentPrice;
-        set("current_price", currentPrice + "");
+    public void setCurrentTrend(String currentTrend) {
+        this.currentTrend = currentTrend;
+        set("current_trend", currentTrend);
+    }
 
+    public void setCurrentPrice(String currentPrice) {
+        this.currentPrice = currentPrice;
+        set("current_price", currentPrice);
     }
 
     public void setName(String name) {

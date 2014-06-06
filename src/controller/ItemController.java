@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.ItemReader;
 import model.ORM.ItemRow;
 import model.ORM.ItemRowset;
 import model.ORM.ItemTable;
@@ -25,9 +26,11 @@ public class ItemController {
     private MainController mainController;
     private ArrayList<Proxy> proxies;
     private ItemTable items;
+    private ItemReader itemReader;
 
     public ItemController() {
         items = new ItemTable();
+        itemReader = new ItemReader(this);
 
         proxies = new ArrayList<>();
         proxies.add(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("217.12.204.22", 3128)));
@@ -60,31 +63,34 @@ public class ItemController {
     }
 
     public void reloadItem(int itemId) {
-        Random rnd = new Random();
-        int proxyNumber = rnd.nextInt(7);
-        Proxy p = proxies.get(proxyNumber);
-        ItemInformationThread iit = new ItemInformationThread(itemId, p, this);
-        iit.run();
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ItemController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        Random rnd = new Random();
+//        int proxyNumber = rnd.nextInt(7);
+//        Proxy p = proxies.get(proxyNumber);
+//        ItemInformationThread iit = new ItemInformationThread(itemId, p, this);
+//        iit.run();
+//        try {
+//            Thread.sleep(300);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(ItemController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        itemReader.retrieveItem(itemId);
     }
 
     public void reloadAllItems() {
-        try {
-            for (int i = 1; i <= 16000; i++) {
-                int proxyNumber = i % 8;
-                Proxy p = proxies.get(proxyNumber);
-                ItemInformationThread iit = new ItemInformationThread(i, p, this);
-                iit.run();
-                Thread.sleep(300);
-            }
+//        try {
+//            for (int i = 1; i <= 16000; i++) {
+//                int proxyNumber = i % 8;
+//                Proxy p = proxies.get(proxyNumber);
+//                ItemInformationThread iit = new ItemInformationThread(i, p, this);
+//                iit.run();
+//                Thread.sleep(300);
+//            }
+//
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
 
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        itemReader.retrieveAllItems();
 
     }
 

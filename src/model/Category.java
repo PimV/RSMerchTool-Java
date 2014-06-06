@@ -17,13 +17,13 @@ public enum Category {
     BOLTS(3, "Bolts", "Bolts used in crossbows"),
     CONSTRUCTION_MATERIALS(4, "Construction materials", "Random items"),
     CONSTRUCTION_PROJECTS(5, "Construction projects", "Random items"),
-    COOKING_INGREDIENTS(6, "Cooking inredients", "Random items"),
+    COOKING_INGREDIENTS(6, "Cooking ingredients", "Random items"),
     COSTUMES(7, "Costumes", "Random items"),
     CRAFTING_MATERIALS(8, "Crafting materials", "Random items"),
     FAMILIARS(9, "Familiars", "Random items"),
     FARMING_PRODUCE(10, "Farming produce", "Random items"),
     FLETCHING_MATERIALS(11, "Fletching materials", "Random items"),
-    FOOD_AND_DRINK(12, "Food and drink", "Random items"),
+    FOOD_AND_DRINK(12, "Food and Drink", "Random items"),
     HERBLORE_MATERIALS(13, "Herblore materials", "Random items"),
     HUNTING_EQUIPMENT(14, "Hunting equipment", "Random items"),
     HUNTING_PRODUCE(15, "Hunting produce", "Random items"),
@@ -62,7 +62,7 @@ public enum Category {
 
     public static final Category getByName(String categoryName) {
         for (Category c : Category.values()) {
-            if (c.toString().equals(categoryName)) {
+            if (c.toString().equalsIgnoreCase(categoryName)) {
                 return c;
             }
         }
@@ -71,7 +71,7 @@ public enum Category {
 
     public static final Category getByNiceName(String niceName) {
         for (Category c : Category.values()) {
-            if (c.getNiceName().equals(niceName)) {
+            if (c.getNiceName().equalsIgnoreCase(niceName)) {
                 return c;
             }
         }
