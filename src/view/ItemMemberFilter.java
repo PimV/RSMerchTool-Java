@@ -14,13 +14,25 @@ import model.ORM.ItemRow;
  */
 public class ItemMemberFilter extends RowFilter {
 
-    public ItemMemberFilter() {
+    private boolean show;
 
+    public ItemMemberFilter(boolean show) {
+        this.show = show;
     }
 
     @Override
     public boolean include(Entry entry) {
         ItemRow item = (ItemRow) entry.getValue(0);
+        boolean isMember = item.isMembers();
+        if (show && isMember) {
+            return true;
+        } else if (show && !isMember) {
+            return false;
+        } else if (!show && isMember) {
+            return false;
+        } else if (!show && !isMember) {
+            return true;
+        }
         return item.isMembers();
     }
 

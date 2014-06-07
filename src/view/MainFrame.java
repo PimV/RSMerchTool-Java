@@ -6,13 +6,19 @@
 package view;
 
 import controller.MainController;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.UIManager;
 import javax.swing.event.DocumentListener;
+import model.Category;
 import model.ORM.ItemRow;
 
 /**
@@ -23,18 +29,46 @@ public class MainFrame extends javax.swing.JFrame {
 
     private MainController controller;
     private ItemRow selectedItem;
+    private ArrayList<RowFilter<Object, Object>> filters = new ArrayList<>();
 
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
+        UIManager.put("CheckBoxMenuItemUI",
+                "view.StayOpenCheckBoxMenuItemUI");
         initComponents();
+
         this.setVisible(true);
+
+        busyLabel.setVisible(false);
 
         orderAlphabetically();
 
-        DocumentListener listener = new ItemSearchFieldListener(itemList);
+        DocumentListener listener = new ItemSearchFieldListener(this);
         itemSearchField.getDocument().addDocumentListener(listener);
+
+        for (Category c : Category.values()) {
+            CategoryCheckBoxMenuItem categoryMenuItem;
+            if (c.getCategoryNumber() < 20) {
+                categoryMenuItem = new CategoryCheckBoxMenuItem(c);
+                categoryMenuItem.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        toggleCategoryActionsPerformed(evt);
+                    }
+                });
+                categoryMenu1.add(categoryMenuItem);
+            } else {
+                categoryMenuItem = new CategoryCheckBoxMenuItem(c);
+                categoryMenuItem.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        toggleCategoryActionsPerformed(evt);
+                    }
+                });
+                categoryMenu2.add(categoryMenuItem);
+            }
+        }
+
     }
 
     /**
@@ -78,6 +112,8 @@ public class MainFrame extends javax.swing.JFrame {
         reloadAllItemsMenuItem = new javax.swing.JMenuItem();
         itemFilterMenu = new javax.swing.JMenu();
         toggleMemberItems = new javax.swing.JCheckBoxMenuItem();
+        categoryMenu1 = new javax.swing.JMenu();
+        categoryMenu2 = new javax.swing.JMenu();
         offerMenu = new javax.swing.JMenu();
         newOfferMenuItem = new javax.swing.JMenuItem();
 
@@ -315,7 +351,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         itemFilterMenu.setText(" Filters");
 
-        toggleMemberItems.setSelected(true);
         toggleMemberItems.setText("Hide member items");
         toggleMemberItems.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -323,6 +358,12 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         itemFilterMenu.add(toggleMemberItems);
+
+        categoryMenu1.setText("Categories (1 - 19)");
+        itemFilterMenu.add(categoryMenu1);
+
+        categoryMenu2.setText("Categories (20 - 37)");
+        itemFilterMenu.add(categoryMenu2);
 
         itemMenu.add(itemFilterMenu);
 
@@ -435,6 +476,10 @@ public class MainFrame extends javax.swing.JFrame {
         toggleMembers();
     }//GEN-LAST:event_toggleMemberItemsActionPerformed
 
+    private void toggleCategoryActionsPerformed(java.awt.event.ActionEvent evt) {
+        filterCategory((CategoryCheckBoxMenuItem) evt.getSource());
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -500,12 +545,71 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
 
-    public void toggleMembers() {
-        if (toggleMemberItems.isSelected()) {
-            itemList.setRowFilter(new ItemMemberFilter());
-        } else {
-            itemList.setRowFilter(null);
+    public void filterCategory(CategoryCheckBoxMenuItem menuItem) {
+        int loopSize = filters.size();
+        for (int i = 0; i < loopSize; i++) {
+            if (filters.get(i) instanceof ItemCategoryFilter) {
+                ItemCategoryFilter icf = (ItemCategoryFilter) filters.get(i);
+                if (icf.getCategory() == menuItem.getCategory()) {
+                    filters.remove(i);
+                    applyFilters();
+                    return;
+                }
+
+            }
         }
+
+        //  addFilter(new ItemCategoryFilter(category));
+        addFilter(new ItemCategoryFilter(menuItem));
+
+        applyFilters();
+    }
+
+    public void toggleMembers() {
+        int loopSize = filters.size();
+        for (int i = 0; i < loopSize; i++) {
+            if (filters.get(i) instanceof ItemMemberFilter) {
+                filters.remove(i);
+                applyFilters();
+                return;
+            }
+        }
+        if (toggleMemberItems.isSelected()) {
+            addFilter(new ItemMemberFilter(false));
+        } else {
+            addFilter(new ItemMemberFilter(true));
+        }
+        applyFilters();
+    }
+
+    void replaceSearchFilter(ItemRowFilter itemRowFilter) {
+        int loopSize = filters.size();
+        for (int i = 0; i < loopSize; i++) {
+            if (filters.get(i) instanceof ItemRowFilter) {
+                filters.remove(i);
+                if (itemRowFilter == null) {
+                    applyFilters();
+                    return;
+                }
+            }
+        }
+        addFilter(itemRowFilter);
+        applyFilters();
+    }
+
+    void addFilter(RowFilter rf) {
+        if (filters.contains(rf)) {
+            System.out.println("filter already in");
+        } else {
+            System.out.println("adding rf");
+            filters.add(rf);
+        }
+        applyFilters();
+    }
+
+    void applyFilters() {
+        System.out.println("Filter size: " + filters.size());
+        itemList.setRowFilter(RowFilter.andFilter(filters));
     }
 
     public void clearList() {
@@ -544,6 +648,8 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXBusyLabel busyLabel;
     private javax.swing.JPanel busyPanel;
+    private javax.swing.JMenu categoryMenu1;
+    private javax.swing.JMenu categoryMenu2;
     private org.jdesktop.swingx.JXButton createOfferButton;
     private javax.swing.JMenuItem exitMenuItem;
     private org.jdesktop.swingx.JXButton favoriteItemButton;
@@ -578,4 +684,5 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem showAllItemsMenuItem;
     private javax.swing.JCheckBoxMenuItem toggleMemberItems;
     // End of variables declaration//GEN-END:variables
+
 }

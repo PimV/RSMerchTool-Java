@@ -19,9 +19,11 @@ public class ItemSearchFieldListener implements DocumentListener {
 
     private JXList list;
     private ItemRowFilter irf;
+    private MainFrame mainFrame;
 
-    public ItemSearchFieldListener(JXList list) {
+    public ItemSearchFieldListener(MainFrame mainFrame) {
         this.list = list;
+        this.mainFrame = mainFrame;
     }
 
     @Override
@@ -44,7 +46,9 @@ public class ItemSearchFieldListener implements DocumentListener {
         try {
             text = doc.getText(0, doc.getLength());
 
-            list.setRowFilter(text.length() > 0 ? irf = new ItemRowFilter(text) : null);
+            mainFrame.replaceSearchFilter(text.length() > 0 ? new ItemRowFilter(text) : null);
+
+            //   list.setRowFilter(text.length() > 0 ? irf = new ItemRowFilter(text) : null);
         } catch (BadLocationException ex) {
             ex.printStackTrace();
         }

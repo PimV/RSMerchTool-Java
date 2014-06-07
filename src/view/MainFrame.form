@@ -53,13 +53,22 @@
               <SubComponents>
                 <MenuItem class="javax.swing.JCheckBoxMenuItem" name="toggleMemberItems">
                   <Properties>
-                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Hide member items"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toggleMemberItemsActionPerformed"/>
                   </Events>
                 </MenuItem>
+                <Menu class="javax.swing.JMenu" name="categoryMenu1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Categories (1 - 19)"/>
+                  </Properties>
+                </Menu>
+                <Menu class="javax.swing.JMenu" name="categoryMenu2">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Categories (20 - 37)"/>
+                  </Properties>
+                </Menu>
               </SubComponents>
             </Menu>
           </SubComponents>
