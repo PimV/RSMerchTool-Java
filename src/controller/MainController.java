@@ -5,6 +5,7 @@
  */
 package controller;
 
+import model.ProxyLoader;
 import view.MainFrame;
 
 /**
@@ -20,23 +21,28 @@ public class MainController {
     public MainController() {
         this.itemController = new ItemController();
         this.itemController.setMainController(this);
-        
+
         this.offerController = new OfferController();
         this.offerController.setMainController(this);
+    }
+
+    public void getProxiesFromFile(String filePath) {
+        ProxyLoader pl = new ProxyLoader();
+        itemController.setProxiesForItemReader(pl.extractProxiesFromAPI(filePath));
     }
 
     public OfferController getOfferController() {
         return this.offerController;
     }
-    
+
     public ItemController getItemController() {
         return this.itemController;
     }
-    
+
     public MainFrame getMainFrame() {
         return this.mainFrame;
     }
-    
+
     public void exit() {
         System.exit(0);
     }

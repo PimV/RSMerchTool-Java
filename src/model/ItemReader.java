@@ -67,6 +67,12 @@ public class ItemReader {
     }
 
     public void retrieveItem(int itemId) {
+
+        retryItem(itemId);
+// stpe.schedule(new ItemInformationThread(itemId, null, itemController, this), 100, TimeUnit.MILLISECONDS);
+    }
+
+    public void retryItem(int itemId) {
         Random rnd = new Random();
         int proxyNumber = rnd.nextInt(proxies.size());
         stpe.schedule(new ItemInformationThread(itemId, proxies.get(proxyNumber), itemController, this), 0, TimeUnit.MILLISECONDS);
@@ -76,7 +82,7 @@ public class ItemReader {
         for (int itemId = 1; itemId < 35000; itemId++) {
 
             int proxyNumber = itemId % (proxies.size());
-            stpe.schedule(new ItemInformationThread(itemId, proxies.get(proxyNumber), itemController, this), 1000, TimeUnit.MILLISECONDS);
+            stpe.schedule(new ItemInformationThread(itemId, proxies.get(proxyNumber), itemController, this), 0, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -88,4 +94,16 @@ public class ItemReader {
         return this.itemController;
     }
 
+    public void setProxies(ArrayList<CustomProxy> proxies) {
+        ArrayList<CustomProxy> proxiesToAdd = new ArrayList<>();
+        for (CustomProxy cp : proxies) {
+            for (CustomProxy cp2 : this.proxies) {
+                if (cp.address() != cp2.address()) {
+                    proxiesToAdd.add(cp);
+                }
+            }
+        }
+        this.proxies.addAll(proxiesToAdd);
+        // this.proxies = proxies;
+    }
 }

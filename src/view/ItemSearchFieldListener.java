@@ -47,7 +47,6 @@ public class ItemSearchFieldListener implements DocumentListener {
             text = doc.getText(0, doc.getLength());
 
             mainFrame.replaceSearchFilter(text.length() > 0 ? new ItemRowFilter(text) : null);
-
             //   list.setRowFilter(text.length() > 0 ? irf = new ItemRowFilter(text) : null);
         } catch (BadLocationException ex) {
             ex.printStackTrace();

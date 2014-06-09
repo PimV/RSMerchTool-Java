@@ -8,9 +8,9 @@ package controller;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.ArrayList;
+import model.CustomProxy;
 import model.ItemReader;
 import model.ORM.ItemRow;
-import model.ORM.ItemRowset;
 import model.ORM.ItemTable;
 import thread.ShowAllItemsThread;
 
@@ -42,7 +42,6 @@ public class ItemController {
 
     public void addItemToList(final ItemRow item) {
         Runnable r = new Runnable() {
-
             @Override
             public void run() {
                 mainController.getMainFrame().addItemToList(item);
@@ -63,6 +62,10 @@ public class ItemController {
     public void showAllItems() {
         ShowAllItemsThread sait = new ShowAllItemsThread(this.items, this);
         sait.run();
+    }
+
+    public void setProxiesForItemReader(ArrayList<CustomProxy> proxies) {
+        itemReader.setProxies(proxies);
     }
 
     public void showBusy(boolean busy) {

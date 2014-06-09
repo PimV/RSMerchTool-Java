@@ -6,18 +6,18 @@
 package view;
 
 import controller.MainController;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Category;
 import model.ORM.ItemRow;
 
@@ -84,6 +84,8 @@ public class MainFrame extends javax.swing.JFrame {
         itemSearchField = new javax.swing.JTextField();
         itemScrollPane = new javax.swing.JScrollPane();
         itemList = new org.jdesktop.swingx.JXList();
+        itemNumberLabel = new javax.swing.JLabel();
+        itemNumberValue = new javax.swing.JLabel();
         graphicPanel = new javax.swing.JPanel();
         itemPanel = new javax.swing.JPanel();
         itemNameLabel = new javax.swing.JLabel();
@@ -106,6 +108,7 @@ public class MainFrame extends javax.swing.JFrame {
         favoriteItemButton = new org.jdesktop.swingx.JXButton();
         mainMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
+        loadProxyMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         itemMenu = new javax.swing.JMenu();
         showAllItemsMenuItem = new javax.swing.JMenuItem();
@@ -115,6 +118,7 @@ public class MainFrame extends javax.swing.JFrame {
         categoryMenu1 = new javax.swing.JMenu();
         categoryMenu2 = new javax.swing.JMenu();
         offerMenu = new javax.swing.JMenu();
+        showAllOffersMenuItem = new javax.swing.JMenuItem();
         newOfferMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -128,20 +132,35 @@ public class MainFrame extends javax.swing.JFrame {
         });
         itemScrollPane.setViewportView(itemList);
 
+        itemNumberLabel.setText("Number of items in list:");
+
+        itemNumberValue.setText("-");
+
         javax.swing.GroupLayout listPanelLayout = new javax.swing.GroupLayout(listPanel);
         listPanel.setLayout(listPanelLayout);
         listPanelLayout.setHorizontalGroup(
             listPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(itemSearchField)
-            .addComponent(itemScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, listPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(itemScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(listPanelLayout.createSequentialGroup()
+                .addComponent(itemNumberLabel)
+                .addGap(18, 18, 18)
+                .addComponent(itemNumberValue)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         listPanelLayout.setVerticalGroup(
             listPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(listPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(itemSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(itemScrollPane)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(listPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(itemNumberLabel)
+                    .addComponent(itemNumberValue))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(itemScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -156,7 +175,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         graphicPanelLayout.setVerticalGroup(
             graphicPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 204, Short.MAX_VALUE)
+            .addGap(0, 202, Short.MAX_VALUE)
         );
 
         itemPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -173,7 +192,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         itemAccuratePriceLabel.setText("Price (gp):");
 
-        itemImage.setBorder(new javax.swing.border.MatteBorder(null));
+        itemImage.setBackground(new java.awt.Color(204, 204, 204));
+        itemImage.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.lightGray));
+        itemImage.setInheritAlpha(false);
         itemImage.setEditable(false);
         itemImage.setEnabled(false);
 
@@ -319,6 +340,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         fileMenu.setText("File");
 
+        loadProxyMenuItem.setText("Load proxies...");
+        loadProxyMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loadProxyMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(loadProxyMenuItem);
+
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         exitMenuItem.setText("Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -370,6 +399,14 @@ public class MainFrame extends javax.swing.JFrame {
         mainMenuBar.add(itemMenu);
 
         offerMenu.setText("Offers");
+
+        showAllOffersMenuItem.setText("Show all offers");
+        showAllOffersMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showAllOffersMenuItemActionPerformed(evt);
+            }
+        });
+        offerMenu.add(showAllOffersMenuItem);
 
         newOfferMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         newOfferMenuItem.setText("Create new offer...");
@@ -446,11 +483,12 @@ public class MainFrame extends javax.swing.JFrame {
     private void itemListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_itemListValueChanged
         if (!evt.getValueIsAdjusting()) {
             if (itemList.getSelectedIndex() != -1) {
-                selectedItem = (ItemRow) itemList.getSelectedValue();
-                int itemId = selectedItem.getID();
-
-                this.controller.getItemController().reloadItem(itemId);
-                showSingleItem(selectedItem);
+                ItemRow selectedItemTemp = (ItemRow) itemList.getSelectedValue();
+                if (selectedItem == null || selectedItemTemp.getID() != selectedItem.getID()) {
+                    selectedItem = selectedItemTemp;
+                    int itemId = selectedItem.getID();
+                    this.controller.getItemController().reloadItem(itemId);
+                }
             }
         }
     }//GEN-LAST:event_itemListValueChanged
@@ -460,7 +498,7 @@ public class MainFrame extends javax.swing.JFrame {
             int itemId = selectedItem.getID();
 
             this.controller.getItemController().reloadItem(itemId);
-            showSingleItem(selectedItem);
+            //showSingleItem(selectedItem);
         }
     }//GEN-LAST:event_refreshItemButtonActionPerformed
 
@@ -475,6 +513,21 @@ public class MainFrame extends javax.swing.JFrame {
     private void toggleMemberItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleMemberItemsActionPerformed
         toggleMembers();
     }//GEN-LAST:event_toggleMemberItemsActionPerformed
+
+    private void loadProxyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadProxyMenuItemActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "JPG & GIF Images", "txt");
+        chooser.setFileFilter(filter);
+        int returnVal = chooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            this.controller.getProxiesFromFile(chooser.getSelectedFile().toPath().toString());
+        }
+    }//GEN-LAST:event_loadProxyMenuItemActionPerformed
+
+    private void showAllOffersMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAllOffersMenuItemActionPerformed
+      //this.controller.getOfferController().goToOffers();
+    }//GEN-LAST:event_showAllOffersMenuItemActionPerformed
 
     private void toggleCategoryActionsPerformed(java.awt.event.ActionEvent evt) {
         filterCategory((CategoryCheckBoxMenuItem) evt.getSource());
@@ -520,13 +573,17 @@ public class MainFrame extends javax.swing.JFrame {
             public void run() {
                 DefaultListModel<ItemRow> model = (DefaultListModel<ItemRow>) itemList.getModel();
                 model.addElement(item);
+                updateNumberCount();
             }
         });
     }
 
+    public void updateNumberCount() {
+        itemNumberValue.setText(itemList.getElementCount() + "");
+    }
+
     public synchronized void updateItemInList(final ItemRow item) {
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 DefaultListModel<ItemRow> model = (DefaultListModel<ItemRow>) itemList.getModel();
@@ -534,7 +591,7 @@ public class MainFrame extends javax.swing.JFrame {
                     ItemRow irInModel = (ItemRow) ir;
                     if (irInModel.getItemId() == item.getItemId()) {
                         ir = item;
-                        if (selectedItem.getItemId() == item.getItemId()) {
+                        if (selectedItem != null && selectedItem.getItemId() == item.getItemId()) {
                             showSingleItem(item);
                         }
                         break;
@@ -551,6 +608,7 @@ public class MainFrame extends javax.swing.JFrame {
             if (filters.get(i) instanceof ItemCategoryFilter) {
                 ItemCategoryFilter icf = (ItemCategoryFilter) filters.get(i);
                 if (icf.getCategory() == menuItem.getCategory()) {
+                    menuItem.setSelected(false);
                     filters.remove(i);
                     applyFilters();
                     return;
@@ -558,8 +616,6 @@ public class MainFrame extends javax.swing.JFrame {
 
             }
         }
-
-        //  addFilter(new ItemCategoryFilter(category));
         addFilter(new ItemCategoryFilter(menuItem));
 
         applyFilters();
@@ -594,22 +650,22 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
         addFilter(itemRowFilter);
-        applyFilters();
+        // applyFilters();
     }
 
     void addFilter(RowFilter rf) {
         if (filters.contains(rf)) {
-            System.out.println("filter already in");
+
         } else {
-            System.out.println("adding rf");
             filters.add(rf);
         }
         applyFilters();
     }
 
     void applyFilters() {
-        System.out.println("Filter size: " + filters.size());
         itemList.setRowFilter(RowFilter.andFilter(filters));
+        updateNumberCount();
+
     }
 
     public void clearList() {
@@ -617,7 +673,6 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public void showSingleItem(ItemRow selectedItem) {
-        //ItemRow selectedItem = (ItemRow) itemList.getSelectedValue();
         itemNameValue.setText(selectedItem.getName());
         itemDescriptionValue.setText(selectedItem.getDescription());
         itemCategoryValue.setText(selectedItem.getCategory().getNiceName());
@@ -627,7 +682,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             itemImage.setImage(new File("C://RSMerchTool//RSMerchTool-Java//images//" + selectedItem.getItemId() + ".jpg"));
         } catch (IOException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
@@ -671,17 +726,20 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu itemMenu;
     private javax.swing.JLabel itemNameLabel;
     private javax.swing.JLabel itemNameValue;
+    private javax.swing.JLabel itemNumberLabel;
+    private javax.swing.JLabel itemNumberValue;
     private javax.swing.JPanel itemPanel;
     private javax.swing.JScrollPane itemScrollPane;
     private javax.swing.JTextField itemSearchField;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel listPanel;
+    private javax.swing.JMenuItem loadProxyMenuItem;
     private javax.swing.JMenuBar mainMenuBar;
     private javax.swing.JMenuItem newOfferMenuItem;
     private javax.swing.JMenu offerMenu;
     private org.jdesktop.swingx.JXButton refreshItemButton;
     private javax.swing.JMenuItem reloadAllItemsMenuItem;
     private javax.swing.JMenuItem showAllItemsMenuItem;
+    private javax.swing.JMenuItem showAllOffersMenuItem;
     private javax.swing.JCheckBoxMenuItem toggleMemberItems;
     // End of variables declaration//GEN-END:variables
 

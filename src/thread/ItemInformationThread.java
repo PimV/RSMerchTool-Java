@@ -9,6 +9,7 @@ import controller.ItemController;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -78,15 +79,15 @@ public class ItemInformationThread implements Runnable {
             } else {
                 // System.err.println("Error retrieving item with itemId: " + this.itemId + ". -- RETRYING");
                 // System.err.println(this.proxy.address());
-                e.printStackTrace();
-                itemController.reloadItem(itemId);
+                // e.printStackTrace();
+                // itemController.reloadItem(itemId);
+                itemReader.retryItem(itemId);
             }
 
         }
     }
 
     private ItemRow retrieveItemInformation(ItemRow i) throws Exception {
-        long start = System.currentTimeMillis();
         URL itemInformation = new URL(getItemInformationURL());
         URLConnection conn;
         if (this.proxy != null) {
@@ -95,14 +96,12 @@ public class ItemInformationThread implements Runnable {
         } else {
             conn = itemInformation.openConnection();
         }
-
+        conn.setReadTimeout(1000);
         conn.setConnectTimeout(2500);
 
         InputStream is = conn.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
         String json = (String) readAll(br);
-        long end = System.currentTimeMillis();
-        System.out.println("Length: " + (end - start));
 
         JSONObject rootObject = (JSONObject) new JSONParser().parse(json);
         JSONObject itemObject = (JSONObject) new JSONParser().parse(rootObject.get("item").toString());
@@ -144,17 +143,9 @@ public class ItemInformationThread implements Runnable {
         //Extract day180Object
         String day180Trend = day180Object.get("trend").toString();
         String day180Change = day180Object.get("change").toString();
-
-        //Todays date for last updated
-//        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-//
-//        Date today = Calendar.getInstance().getTime();
-//        String reportDate = df.format(today);
         java.util.Date dt = new java.util.Date();
-
         java.text.SimpleDateFormat sdf
                 = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         String currentTime = sdf.format(dt);
 
         //Set values for this new Item
@@ -180,7 +171,6 @@ public class ItemInformationThread implements Runnable {
     }
 
     private ItemRow retrieveAccuratePriceInformation(ItemRow i) throws Exception {
-        long start = System.currentTimeMillis();
         URL itemInformation = new URL(getAccurateItemPriceURL());
         URLConnection conn;
         if (this.proxy != null) {
@@ -188,13 +178,11 @@ public class ItemInformationThread implements Runnable {
         } else {
             conn = itemInformation.openConnection();
         }
-
-        conn.setConnectTimeout(5000);
+        conn.setReadTimeout(1000);
+        conn.setConnectTimeout(2500);
         InputStream is = conn.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
         String json = (String) readAll(br);
-        long end = System.currentTimeMillis();
-        System.out.println("Length: " + (end - start));
 
         JSONObject rootObject = (JSONObject) new JSONParser().parse(json);
         JSONObject dailyObject = (JSONObject) new JSONParser().parse(rootObject.get("daily").toString());
@@ -219,24 +207,27 @@ public class ItemInformationThread implements Runnable {
     }
 
     private void downloadImage(String urlString, ItemRow item) throws Exception {
-        URL url = new URL(urlString);
-        InputStream in = new BufferedInputStream(url.openStream());
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] buf = new byte[1024];
-        int n = 0;
-        while (-1 != (n = in.read(buf))) {
-            out.write(buf, 0, n);
-        }
-        out.close();
-        in.close();
-        byte[] response = out.toByteArray();
+        File f = new File("C://RSMerchTool//RSMerchTool-Java//images//" + item.getItemId() + ".jpg");
+        if (!f.exists()) {
+            URL url = new URL(urlString);
+            InputStream in = new BufferedInputStream(url.openStream());
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            int n = 0;
+            while (-1 != (n = in.read(buf))) {
+                out.write(buf, 0, n);
+            }
+            out.close();
+            in.close();
+            byte[] response = out.toByteArray();
 
-        FileOutputStream fos
-                = new FileOutputStream(
-                        "C://RSMerchTool//RSMerchTool-Java//images//" + item.getItemId() + ".jpg"
-                );
-        fos.write(response);
-        fos.close();
+            FileOutputStream fos
+                    = new FileOutputStream(
+                            "C://RSMerchTool//RSMerchTool-Java//images//" + item.getItemId() + ".jpg"
+                    );
+            fos.write(response);
+            fos.close();
+        }
     }
 
     private String readAll(Reader reader) throws IOException {

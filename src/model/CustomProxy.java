@@ -30,7 +30,7 @@ public class CustomProxy extends Proxy {
         if (freeSlots <= 0) {
             hasFreeSlot = false;
         }
-        System.out.println("Proxy has: " + freeSlots + " free slots.");
+
     }
 
     public boolean hasFreeSlot() {
@@ -42,7 +42,7 @@ public class CustomProxy extends Proxy {
         if (freeSlots > 1) {
             freeSlots = 1;
         }
-        System.out.println("Proxy has: " + freeSlots + " free slots.");
+
     }
 
 }
