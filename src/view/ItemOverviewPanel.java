@@ -3,20 +3,41 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package view;
+
+import controller.MainController;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentListener;
+import model.ORM.ItemRow;
 
 /**
  *
  * @author PimGame
  */
+@SuppressWarnings("unchecked")
 public class ItemOverviewPanel extends javax.swing.JPanel {
+    
+    private ItemRow selectedItem;
+    private ArrayList<RowFilter<Object, Object>> filters = new ArrayList<>();
+    private MainController mainController;
 
     /**
      * Creates new form ItemOverviewPanel
      */
     public ItemOverviewPanel() {
         initComponents();
+        
+        busyLabel.setVisible(false);
+        
+        orderAlphabetically();
+        
+        DocumentListener listener = new ItemSearchFieldListener(this);
+        itemSearchField.getDocument().addDocumentListener(listener);
+        
     }
 
     /**
@@ -302,7 +323,8 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
                 if (selectedItem == null || selectedItemTemp.getID() != selectedItem.getID()) {
                     selectedItem = selectedItemTemp;
                     int itemId = selectedItem.getID();
-                    this.controller.getItemController().reloadItem(itemId);
+                    
+                    this.mainController.getItemController().reloadItem(itemId);
                 }
             }
         }
@@ -311,20 +333,156 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
     private void refreshItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshItemButtonActionPerformed
         if (selectedItem != null) {
             int itemId = selectedItem.getID();
-
-            this.controller.getItemController().reloadItem(itemId);
-            //showSingleItem(selectedItem);
+            
+            this.mainController.getItemController().reloadItem(itemId);
+            showSingleItem(selectedItem);
         }
     }//GEN-LAST:event_refreshItemButtonActionPerformed
 
     private void createOfferButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createOfferButtonActionPerformed
-        this.controller.getOfferController().createNewOffer();
+        this.mainController.getOfferController().showNewOfferPopup(selectedItem);
     }//GEN-LAST:event_createOfferButtonActionPerformed
 
     private void favoriteItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_favoriteItemButtonActionPerformed
         System.out.println("Favoriting is not implemented yet.");
     }//GEN-LAST:event_favoriteItemButtonActionPerformed
-
+    
+    public synchronized void addItemToList(final ItemRow item) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                DefaultListModel<ItemRow> model = (DefaultListModel<ItemRow>) itemList.getModel();
+                model.addElement(item);
+                updateNumberCount();
+            }
+        });
+    }
+    
+    public synchronized void updateItemInList(final ItemRow item) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                DefaultListModel<ItemRow> model = (DefaultListModel<ItemRow>) itemList.getModel();
+                for (Object ir : model.toArray()) {
+                    ItemRow irInModel = (ItemRow) ir;
+                    if (irInModel.getItemId() == item.getItemId()) {
+                        ir = item;
+                        if (selectedItem != null && selectedItem.getItemId() == item.getItemId()) {
+                            showSingleItem(item);
+                        }
+                        break;
+                    }
+                }
+            }
+            
+        });
+    }
+    
+    public void showSingleItem(ItemRow selectedItem) {
+        itemNameValue.setText(selectedItem.getName());
+        itemDescriptionValue.setText(selectedItem.getDescription());
+        itemCategoryValue.setText(selectedItem.getCategory().getNiceName());
+        itemMembersValue.setText(selectedItem.isMembers() + "");
+        itemLastUpdatedValue.setText(selectedItem.getLastUpdated());
+        itemAccuratePriceValue.setText(selectedItem.getAccuratePriceString() + "gp");
+        try {
+            itemImage.setImage(new File("C://RSMerchTool//RSMerchTool-Java//images//" + selectedItem.getItemId() + ".jpg"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void filterCategory(CategoryCheckBoxMenuItem menuItem) {
+        int loopSize = filters.size();
+        for (int i = 0; i < loopSize; i++) {
+            if (filters.get(i) instanceof ItemCategoryFilter) {
+                ItemCategoryFilter icf = (ItemCategoryFilter) filters.get(i);
+                if (icf.getCategory() == menuItem.getCategory()) {
+                    menuItem.setSelected(false);
+                    filters.remove(i);
+                    applyFilters();
+                    return;
+                }
+            }
+        }
+        addFilter(new ItemCategoryFilter(menuItem));
+        
+        applyFilters();
+    }
+    
+    public void toggleMembers(boolean showMembers) {
+        int loopSize = filters.size();
+        for (int i = 0; i < loopSize; i++) {
+            if (filters.get(i) instanceof ItemMemberFilter) {
+                filters.remove(i);
+                applyFilters();
+                return;
+            }
+        }
+        if (showMembers) {
+            addFilter(new ItemMemberFilter(false));
+        } else {
+            addFilter(new ItemMemberFilter(true));
+        }
+        applyFilters();
+    }
+    
+    public void orderAlphabetically() {
+        itemList.setAutoCreateRowSorter(true);
+        itemList.toggleSortOrder();
+    }
+    
+    public void setBusy(boolean busy) {
+        busyLabel.setVisible(busy);
+        busyLabel.setBusy(busy);
+    }
+    
+    public void updateNumberCount() {
+        itemNumberValue.setText(itemList.getElementCount() + "");
+    }
+    
+    void applyFilters() {
+        itemList.setRowFilter(RowFilter.andFilter(filters));
+        updateNumberCount();
+    }
+    
+    public void clearList() {
+        itemList.setModel(new DefaultListModel<ItemRow>());
+    }
+    
+    void replaceSearchFilter(ItemRowFilter itemRowFilter) {
+        int loopSize = filters.size();
+        
+        for (int i = 0; i < loopSize; i++) {
+            if (filters.get(i) instanceof ItemRowFilter) {
+                filters.remove(i);
+                if (itemRowFilter == null) {
+                    
+                    applyFilters();
+                    return;
+                }
+            }
+        }
+        
+        addFilter(itemRowFilter);
+        applyFilters();
+    }
+    
+    void addFilter(RowFilter rf) {
+        if (filters.contains(rf)) {
+            
+        } else {
+            filters.add(rf);
+        }
+        applyFilters();
+    }
+    
+    public ItemRow getSelectedItem() {
+        return this.selectedItem;
+    }
+    
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXBusyLabel busyLabel;

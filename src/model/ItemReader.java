@@ -67,15 +67,15 @@ public class ItemReader {
     }
 
     public void retrieveItem(int itemId) {
-
         retryItem(itemId);
-// stpe.schedule(new ItemInformationThread(itemId, null, itemController, this), 100, TimeUnit.MILLISECONDS);
+        //stpe.schedule(new ItemInformationThread(itemId, null, itemController, this), 100, TimeUnit.MILLISECONDS);
     }
 
     public void retryItem(int itemId) {
         Random rnd = new Random();
         int proxyNumber = rnd.nextInt(proxies.size());
         stpe.schedule(new ItemInformationThread(itemId, proxies.get(proxyNumber), itemController, this), 0, TimeUnit.MILLISECONDS);
+        //stpe.schedule(new ItemInformationThread(itemId, null, itemController, this), 0, TimeUnit.MILLISECONDS);
     }
 
     public void retrieveAllItems() {

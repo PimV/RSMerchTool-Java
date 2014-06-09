@@ -26,7 +26,7 @@ public class ItemController {
     private ItemReader itemReader;
 
     public ItemController() {
-        items = new ItemTable();
+        items = ItemTable.getInstance();
         itemReader = new ItemReader(this);
 
         proxies = new ArrayList<>();
@@ -44,8 +44,7 @@ public class ItemController {
         Runnable r = new Runnable() {
             @Override
             public void run() {
-                mainController.getMainFrame().addItemToList(item);
-
+                mainController.getMainFrame().getItemOverviewPanel().addItemToList(item);
             }
         };
         r.run();
@@ -53,14 +52,14 @@ public class ItemController {
     }
 
     public ItemRow getItem(int itemId) {
-        ItemRow fetchedItem = items.fetch(itemId);
+        ItemRow fetchedItem = ItemTable.getInstance().fetch(itemId);
 
         addItemToList(fetchedItem);
         return fetchedItem;
     }
 
     public void showAllItems() {
-        ShowAllItemsThread sait = new ShowAllItemsThread(this.items, this);
+        ShowAllItemsThread sait = new ShowAllItemsThread(ItemTable.getInstance(), this);
         sait.run();
     }
 
@@ -69,7 +68,7 @@ public class ItemController {
     }
 
     public void showBusy(boolean busy) {
-        this.mainController.getMainFrame().setBusy(busy);
+        this.mainController.getMainFrame().getItemOverviewPanel().setBusy(busy);
     }
 
     public void reloadItem(int itemId) {
@@ -77,12 +76,12 @@ public class ItemController {
     }
 
     public void updateInTable(ItemRow itemRow) {
-        items.replace(itemRow.getItemId(), itemRow);
+        ItemTable.getInstance().replace(itemRow.getItemId(), itemRow);
         updateInView(itemRow);
     }
 
     public void updateInView(ItemRow itemRow) {
-        this.mainController.getMainFrame().updateItemInList(itemRow);
+        this.mainController.getMainFrame().getItemOverviewPanel().updateItemInList(itemRow);
     }
 
     public void reloadAllItems() {

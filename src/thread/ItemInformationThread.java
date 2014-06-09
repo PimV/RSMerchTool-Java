@@ -61,7 +61,7 @@ public class ItemInformationThread implements Runnable {
     public void run() {
         try {
             itemController.showBusy(true);
-            ItemTable it = new ItemTable();
+            ItemTable it = ItemTable.getInstance();
             ItemRow i = it.createRow();
             retrieveItemInformation(i);
             retrieveAccuratePriceInformation(i);

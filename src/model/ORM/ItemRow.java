@@ -5,12 +5,8 @@
  */
 package model.ORM;
 
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Category;
 
 /**

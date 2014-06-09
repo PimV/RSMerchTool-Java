@@ -18,8 +18,9 @@ import java.util.ArrayList;
 public class ItemTable extends DbTable<ItemRow> {
 
     private ItemRowset list;
+    private static ItemTable instance;
 
-    public ItemTable() {
+    protected ItemTable() {
         super("item");
         ArrayList<String> columns = new ArrayList<>();
         setIdField("id");
@@ -40,6 +41,13 @@ public class ItemTable extends DbTable<ItemRow> {
         columns.add("180day_change");
         columns.add("last_updated");
         setColumns(columns);
+    }
+    
+    public static synchronized ItemTable getInstance() {
+        if (ItemTable.instance == null) {
+            ItemTable.instance = new ItemTable();
+        }
+        return ItemTable.instance;
     }
 
     public ItemRowset fetchAll() {
