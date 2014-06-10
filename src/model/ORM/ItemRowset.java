@@ -11,4 +11,22 @@ package model.ORM;
  */
 public class ItemRowset extends DbRowset<ItemRow> {
 
+    public synchronized ItemRow getItemById(int id) {
+        ItemRow item = null;
+        for (ItemRow ir : this) {
+            if (ir.getID() == id) {
+                item = ir;
+                break;
+            }
+        }
+
+        if (item != null) {
+            System.out.println("Accurate Price in get: " + item.getAccuratePriceString());
+        } else {
+            System.err.println("Item not found!");
+        }
+
+        return item;
+    }
+
 }

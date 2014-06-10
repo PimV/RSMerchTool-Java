@@ -97,7 +97,7 @@ public class ItemInformationThread implements Runnable {
         } else {
             conn = itemInformation.openConnection();
         }
-      //  conn.setReadTimeout(1000);
+        //  conn.setReadTimeout(1000);
         //  conn.setConnectTimeout(2500);
 
         InputStream is = conn.getInputStream();

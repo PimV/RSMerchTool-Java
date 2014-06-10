@@ -328,9 +328,8 @@ public class CreateOfferPanel extends javax.swing.JPanel {
         double buyPrice = buyPriceNumber.doubleValue();
         double amount = amountNumber.doubleValue();
 
-        System.out.println("Buy price: " + buyPrice);
-        System.out.println("Sell price: " + sellPrice);
-
+       // System.out.println("Buy price: " + buyPrice);
+        // System.out.println("Sell price: " + sellPrice);
         //Calculate values
         double profitPerItemGp = sellPrice - buyPrice;
         double profitPerItemPercent = -1;

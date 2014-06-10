@@ -54,6 +54,7 @@ public class ItemRow extends DbRow {
 
     public void setAccuratePrice(int accuratePrice) {
         this.accuratePrice = accuratePrice;
+        System.out.println("Accurate Price: " + accuratePrice);
         set("accurate_price", accuratePrice + "");
     }
 
@@ -161,7 +162,7 @@ public class ItemRow extends DbRow {
     }
 
     public String getAccuratePriceString() {
-        if (get("accurate_price") != null && !get("accurate_price").isEmpty()) {
+        if (get("accurate_price") != null) { // && !get("accurate_price").isEmpty()) {
 
             String str = String.format("%,d", getAccuratePrice());
             return str;

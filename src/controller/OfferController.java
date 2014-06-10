@@ -8,6 +8,7 @@ package controller;
 import java.awt.Dimension;
 import javax.swing.JDialog;
 import model.ORM.ItemRow;
+import model.ORM.ItemTable;
 import model.ORM.OfferRow;
 import model.ORM.OfferTable;
 import view.CreateOfferPanel;
@@ -17,13 +18,13 @@ import view.CreateOfferPanel;
  * @author PimGame
  */
 public class OfferController {
-    
+
     private MainController mainController;
-    
+
     public OfferController() {
-        
+
     }
-    
+
     public void createNewOffer(ItemRow item, String buyPrice, String sellPrice) {
         OfferRow or = OfferTable.getInstance().createRow();
         or.setID(item.getID());
@@ -32,17 +33,18 @@ public class OfferController {
         or.setOfferCompleted("false");
         or.save();
     }
-    
+
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
-    
+
     public void showNewOfferPopup(ItemRow selectedItem) {
         JDialog dialog = new JDialog();
         CreateOfferPanel cop = new CreateOfferPanel();
         cop.setMainController(this.mainController);
         cop.setVisible(true);
         cop.fillComboBox();
+        // cop.setInitialItem(ItemTable.getInstance().fetchAll().getItemById(selectedItem.getID()));
         cop.setInitialItem(selectedItem);
         dialog.setContentPane(cop);
         dialog.setSize(new Dimension(510, 465));
@@ -57,5 +59,5 @@ public class OfferController {
 //        cof.fillComboBox();
 //        cof.setInitialItem(selectedItem);
     }
-    
+
 }

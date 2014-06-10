@@ -52,9 +52,9 @@ public class ItemController {
     }
 
     public ItemRow getItem(int itemId) {
-        ItemRow fetchedItem = ItemTable.getInstance().fetch(itemId);
-
-        addItemToList(fetchedItem);
+        // ItemRow fetchedItem = ItemTable.getInstance().fetch(itemId);
+        ItemRow fetchedItem = ItemTable.getInstance().fetchAll().get(itemId);
+        //  addItemToList(fetchedItem);
         return fetchedItem;
     }
 

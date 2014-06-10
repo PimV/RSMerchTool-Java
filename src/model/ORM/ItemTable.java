@@ -42,7 +42,7 @@ public class ItemTable extends DbTable<ItemRow> {
         columns.add("last_updated");
         setColumns(columns);
     }
-    
+
     public static synchronized ItemTable getInstance() {
         if (ItemTable.instance == null) {
             ItemTable.instance = new ItemTable();
@@ -76,7 +76,6 @@ public class ItemTable extends DbTable<ItemRow> {
 
     public ItemRow fetch(int id) {
         ItemRow ir = null;
-
         try {
             String query = "SELECT * FROM " + this.getName()
                     + " WHERE " + this.getIdField() + " = " + id;
@@ -87,21 +86,25 @@ public class ItemTable extends DbTable<ItemRow> {
 
                 for (String columnName : this.getColumns()) {
                     ir.set(columnName, res.getString(columnName));
-                    System.out.println(columnName + ": " + res.getString(columnName));
+                    // System.out.println(columnName + ": " + res.getString(columnName));
                 }
+                ir.setID(Integer.parseInt(res.getString(this.getIdField())));
 
             }
         } catch (SQLException e) {
             System.err.println("Error in fetch with item id: " + id);
             System.err.println(e);
         }
+        System.out.println("Accurate Price in fetch: " + ir.getAccuratePriceString());
         return ir;
     }
 
     public void replace(int itemId, ItemRow itemRow) {
-        for (ItemRow ir : list) {
-            if (ir.getItemId() == itemId) {
-                ir = itemRow;
+
+        for (int i = 0; i < list.size(); i++) {
+            ItemRow tempItem = list.get(i);
+            if (tempItem.getItemId() == itemRow.getItemId()) {
+                list.set(i, itemRow);
                 break;
             }
         }
