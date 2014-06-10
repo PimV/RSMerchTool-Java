@@ -108,12 +108,12 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
             .addGroup(listPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(itemSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(listPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(itemNumberLabel)
                     .addComponent(itemNumberValue))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(itemScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(itemScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -138,7 +138,6 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
         itemDescriptionValue.setLineWrap(true);
         itemDescriptionValue.setText("-");
         itemDescriptionValue.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        itemDescriptionValue.setMaximumSize(new java.awt.Dimension(2147483647, 0));
 
         itemCategoryLabel.setText("Category:");
 

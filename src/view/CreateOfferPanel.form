@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
-  <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="modalExclusionType" type="java.awt.Dialog$ModalExclusionType" editor="org.netbeans.modules.form.editors.EnumEditor">
-      <Value id="APPLICATION_EXCLUDE"/>
-    </Property>
-    <Property name="resizable" type="boolean" value="false"/>
-    <Property name="type" type="java.awt.Window$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-      <Value id="POPUP"/>
-    </Property>
-  </Properties>
-  <SyntheticProperties>
-    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
-  </SyntheticProperties>
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -30,11 +16,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="submitButton" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
+                  <Component id="submitButton" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="nameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="buyPriceLabel" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -46,21 +32,21 @@
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="amountTextField" pref="350" max="32767" attributes="0"/>
-                          <Component id="profitPerItemPercentTextField" max="32767" attributes="0"/>
-                          <Component id="profitPerItemGpTextField" max="32767" attributes="0"/>
-                          <Component id="sellPriceTextField" max="32767" attributes="0"/>
-                          <Component id="itemsComboBox" max="32767" attributes="0"/>
-                          <Component id="buyPriceTextField" max="32767" attributes="0"/>
-                          <Component id="totalProfitGpTextField" max="32767" attributes="0"/>
+                          <Component id="amountTextField" alignment="0" pref="350" max="32767" attributes="0"/>
+                          <Component id="profitPerItemPercentTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="profitPerItemGpTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="sellPriceTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="itemsComboBox" alignment="0" max="32767" attributes="0"/>
+                          <Component id="buyPriceTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="totalProfitGpTextField" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="itemImage" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="descriptionLabel" min="-2" max="-2" attributes="0"/>
-                          <Component id="descriptionValue" min="-2" max="-2" attributes="0"/>
+                          <Component id="descriptionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="descriptionValue" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="currentPriceLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -84,8 +70,8 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="itemImage" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
+                  <Component id="itemImage" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
                       <Component id="descriptionLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="descriptionValue" min="-2" max="-2" attributes="0"/>
@@ -96,7 +82,7 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="53" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="amountLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="amountTextField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -134,26 +120,6 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="org.jdesktop.swingx.JXLabel" name="nameLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Item:"/>
-      </Properties>
-    </Component>
-    <Component class="org.jdesktop.swingx.JXComboBox" name="itemsComboBox">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new DefaultComboBoxModel()" type="code"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="itemsComboBoxPropertyChange"/>
-      </Events>
-    </Component>
-    <Component class="org.jdesktop.swingx.JXLabel" name="amountLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Amount:"/>
-      </Properties>
-    </Component>
     <Component class="org.jdesktop.swingx.JXFormattedTextField" name="amountTextField">
       <Properties>
         <Property name="columns" type="int" value="20"/>
@@ -165,32 +131,28 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="sellPriceTextFieldPropertyChange"/>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="amountTextFieldsellPriceTextFieldPropertyChange"/>
       </Events>
     </Component>
-    <Component class="org.jdesktop.swingx.JXLabel" name="buyPriceLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Buy price:"/>
-      </Properties>
+    <Component class="org.jdesktop.swingx.JXLabel" name="currentPriceValue">
     </Component>
-    <Component class="org.jdesktop.swingx.JXFormattedTextField" name="buyPriceTextField">
+    <Component class="org.jdesktop.swingx.JXComboBox" name="itemsComboBox">
       <Properties>
-        <Property name="columns" type="int" value="20"/>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" preCode="javax.swing.text.NumberFormatter priceNf = new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(&quot;#,### gp&quot;));&#xa;priceNf.setAllowsInvalid(false);&#xa;javax.swing.text.DefaultFormatterFactory priceFormatter = new javax.swing.text.DefaultFormatterFactory(priceNf);">
-          <Connection code="dff" type="code"/>
-        </Property>
-        <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new Integer(0)" type="code"/>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new DefaultComboBoxModel()" type="code"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="sellPriceTextFieldPropertyChange"/>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="itemsComboBoxPropertyChange"/>
       </Events>
     </Component>
-    <Component class="org.jdesktop.swingx.JXLabel" name="sellPriceLabel">
+    <Component class="org.jdesktop.swingx.JXButton" name="submitButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Sell price:"/>
+        <Property name="text" type="java.lang.String" value="Submit offer"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="submitButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="org.jdesktop.swingx.JXFormattedTextField" name="sellPriceTextField">
       <Properties>
@@ -205,43 +167,9 @@
         <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="sellPriceTextFieldPropertyChange"/>
       </Events>
     </Component>
-    <Component class="org.jdesktop.swingx.JXLabel" name="profitPerItemGpLabel">
+    <Component class="org.jdesktop.swingx.JXLabel" name="amountLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Profit per Item (GP):"/>
-      </Properties>
-    </Component>
-    <Component class="org.jdesktop.swingx.JXFormattedTextField" name="profitPerItemGpTextField">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-        <Property name="focusable" type="boolean" value="false"/>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="priceFormatter" type="code"/>
-        </Property>
-        <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new Double(0.0)" type="code"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="org.jdesktop.swingx.JXLabel" name="profitPerItemPercentLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Profit per Item (%):"/>
-      </Properties>
-    </Component>
-    <Component class="org.jdesktop.swingx.JXFormattedTextField" name="profitPerItemPercentTextField">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-        <Property name="focusable" type="boolean" value="false"/>
-        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-          <Format format="#0.00%" subtype="-1" type="3"/>
-        </Property>
-        <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new Double(0.0)" type="code"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="org.jdesktop.swingx.JXLabel" name="totalProfitGpLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Profit (GP):"/>
+        <Property name="text" type="java.lang.String" value="Amount:"/>
       </Properties>
     </Component>
     <Component class="org.jdesktop.swingx.JXFormattedTextField" name="totalProfitGpTextField">
@@ -250,12 +178,18 @@
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
     </Component>
-    <Component class="org.jdesktop.swingx.JXButton" name="submitButton">
+    <Component class="org.jdesktop.swingx.JXFormattedTextField" name="buyPriceTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Submit offer"/>
+        <Property name="columns" type="int" value="20"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="dff" type="code"/>
+        </Property>
+        <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new Integer(0)" type="code"/>
+        </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="submitButtonActionPerformed"/>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="buyPriceTextFieldsellPriceTextFieldPropertyChange"/>
       </Events>
     </Component>
     <Container class="org.jdesktop.swingx.JXImageView" name="itemImage">
@@ -273,19 +207,71 @@
         </DimensionLayout>
       </Layout>
     </Container>
-    <Component class="org.jdesktop.swingx.JXLabel" name="descriptionLabel">
+    <Component class="org.jdesktop.swingx.JXFormattedTextField" name="profitPerItemPercentTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Description:"/>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="focusable" type="boolean" value="false"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+          <Format format="#0.00%" subtype="-1" type="3"/>
+        </Property>
+        <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new Double(0.0)" type="code"/>
+        </Property>
       </Properties>
     </Component>
-    <Component class="org.jdesktop.swingx.JXLabel" name="descriptionValue">
+    <Component class="org.jdesktop.swingx.JXLabel" name="profitPerItemGpLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Profit per Item (GP):"/>
+      </Properties>
     </Component>
     <Component class="org.jdesktop.swingx.JXLabel" name="currentPriceLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Current GE Price: "/>
       </Properties>
     </Component>
-    <Component class="org.jdesktop.swingx.JXLabel" name="currentPriceValue">
+    <Component class="org.jdesktop.swingx.JXLabel" name="profitPerItemPercentLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Profit per Item (%):"/>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="totalProfitGpLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Profit (GP):"/>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="sellPriceLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Sell price:"/>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="descriptionValue">
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="descriptionLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Description:"/>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXFormattedTextField" name="profitPerItemGpTextField">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="focusable" type="boolean" value="false"/>
+        <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" preCode="javax.swing.text.NumberFormatter priceNf = new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(&quot;#,### gp&quot;));&#xa;        priceNf.setAllowsInvalid(false);&#xa;        javax.swing.text.DefaultFormatterFactory priceFormatter = new javax.swing.text.DefaultFormatterFactory(priceNf);">
+          <Connection code="priceFormatter" type="code"/>
+        </Property>
+        <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new Double(0.0)" type="code"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="buyPriceLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Buy price:"/>
+      </Properties>
+    </Component>
+    <Component class="org.jdesktop.swingx.JXLabel" name="nameLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Item:"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

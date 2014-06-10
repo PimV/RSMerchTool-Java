@@ -8,32 +8,26 @@ package view;
 import controller.MainController;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import model.ORM.ItemRow;
 import model.ORM.ItemRowset;
 import model.ORM.ItemTable;
 import org.jdesktop.swingx.JXFormattedTextField;
-import org.jdesktop.swingx.JXTextField;
 
 /**
  *
- * @author PimGame
+ * @author Pim
  */
-public class CreateOfferFrame extends javax.swing.JFrame {
+public class CreateOfferPanel extends javax.swing.JPanel {
 
     private MainController mainController;
     private ItemRow initialItem;
 
     /**
-     * Creates new form CreateOfferFrame
+     * Creates new form CreateOfferPanel
      */
-    public CreateOfferFrame() {
+    public CreateOfferPanel() {
         initComponents();
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-
     }
 
     /**
@@ -45,42 +39,26 @@ public class CreateOfferFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        nameLabel = new org.jdesktop.swingx.JXLabel();
-        itemsComboBox = new org.jdesktop.swingx.JXComboBox();
-        amountLabel = new org.jdesktop.swingx.JXLabel();
         amountTextField = new org.jdesktop.swingx.JXFormattedTextField();
-        buyPriceLabel = new org.jdesktop.swingx.JXLabel();
-        buyPriceTextField = new org.jdesktop.swingx.JXFormattedTextField();
-        sellPriceLabel = new org.jdesktop.swingx.JXLabel();
-        sellPriceTextField = new org.jdesktop.swingx.JXFormattedTextField();
-        profitPerItemGpLabel = new org.jdesktop.swingx.JXLabel();
-        profitPerItemGpTextField = new org.jdesktop.swingx.JXFormattedTextField();
-        profitPerItemPercentLabel = new org.jdesktop.swingx.JXLabel();
-        profitPerItemPercentTextField = new org.jdesktop.swingx.JXFormattedTextField();
-        totalProfitGpLabel = new org.jdesktop.swingx.JXLabel();
-        totalProfitGpTextField = new org.jdesktop.swingx.JXFormattedTextField();
-        submitButton = new org.jdesktop.swingx.JXButton();
-        itemImage = new org.jdesktop.swingx.JXImageView();
-        descriptionLabel = new org.jdesktop.swingx.JXLabel();
-        descriptionValue = new org.jdesktop.swingx.JXLabel();
-        currentPriceLabel = new org.jdesktop.swingx.JXLabel();
         currentPriceValue = new org.jdesktop.swingx.JXLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setModalExclusionType(java.awt.Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
-        setResizable(false);
-        setType(java.awt.Window.Type.POPUP);
-
-        nameLabel.setText("Item:");
-
-        itemsComboBox.setModel(new DefaultComboBoxModel());
-        itemsComboBox.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                itemsComboBoxPropertyChange(evt);
-            }
-        });
-
-        amountLabel.setText("Amount:");
+        itemsComboBox = new org.jdesktop.swingx.JXComboBox();
+        submitButton = new org.jdesktop.swingx.JXButton();
+        sellPriceTextField = new org.jdesktop.swingx.JXFormattedTextField();
+        amountLabel = new org.jdesktop.swingx.JXLabel();
+        totalProfitGpTextField = new org.jdesktop.swingx.JXFormattedTextField();
+        buyPriceTextField = new org.jdesktop.swingx.JXFormattedTextField();
+        itemImage = new org.jdesktop.swingx.JXImageView();
+        profitPerItemPercentTextField = new org.jdesktop.swingx.JXFormattedTextField();
+        profitPerItemGpLabel = new org.jdesktop.swingx.JXLabel();
+        currentPriceLabel = new org.jdesktop.swingx.JXLabel();
+        profitPerItemPercentLabel = new org.jdesktop.swingx.JXLabel();
+        totalProfitGpLabel = new org.jdesktop.swingx.JXLabel();
+        sellPriceLabel = new org.jdesktop.swingx.JXLabel();
+        descriptionValue = new org.jdesktop.swingx.JXLabel();
+        descriptionLabel = new org.jdesktop.swingx.JXLabel();
+        profitPerItemGpTextField = new org.jdesktop.swingx.JXFormattedTextField();
+        buyPriceLabel = new org.jdesktop.swingx.JXLabel();
+        nameLabel = new org.jdesktop.swingx.JXLabel();
 
         amountTextField.setColumns(20);
         javax.swing.text.NumberFormatter amountNf = new javax.swing.text.NumberFormatter(java.text.NumberFormat.getInstance());
@@ -90,25 +68,23 @@ public class CreateOfferFrame extends javax.swing.JFrame {
         amountTextField.setValue(new Integer(0));
         amountTextField.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                sellPriceTextFieldPropertyChange(evt);
+                amountTextFieldsellPriceTextFieldPropertyChange(evt);
             }
         });
 
-        buyPriceLabel.setText("Buy price:");
-
-        buyPriceTextField.setColumns(20);
-        javax.swing.text.NumberFormatter priceNf = new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,### gp"));
-        priceNf.setAllowsInvalid(false);
-        javax.swing.text.DefaultFormatterFactory priceFormatter = new javax.swing.text.DefaultFormatterFactory(priceNf);
-        buyPriceTextField.setFormatterFactory(dff);
-        buyPriceTextField.setValue(new Integer(0));
-        buyPriceTextField.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        itemsComboBox.setModel(new DefaultComboBoxModel());
+        itemsComboBox.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                sellPriceTextFieldPropertyChange(evt);
+                itemsComboBoxPropertyChange(evt);
             }
         });
 
-        sellPriceLabel.setText("Sell price:");
+        submitButton.setText("Submit offer");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
+            }
+        });
 
         sellPriceTextField.setFormatterFactory(dff);
         sellPriceTextField.setValue(new Integer(0));
@@ -118,29 +94,17 @@ public class CreateOfferFrame extends javax.swing.JFrame {
             }
         });
 
-        profitPerItemGpLabel.setText("Profit per Item (GP):");
-
-        profitPerItemGpTextField.setEditable(false);
-        profitPerItemGpTextField.setFocusable(false);
-        profitPerItemGpTextField.setFormatterFactory(priceFormatter);
-        profitPerItemGpTextField.setValue(new Double(0.0));
-
-        profitPerItemPercentLabel.setText("Profit per Item (%):");
-
-        profitPerItemPercentTextField.setEditable(false);
-        profitPerItemPercentTextField.setFocusable(false);
-        profitPerItemPercentTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00%"))));
-        profitPerItemPercentTextField.setValue(new Double(0.0));
-
-        totalProfitGpLabel.setText("Profit (GP):");
+        amountLabel.setText("Amount:");
 
         totalProfitGpTextField.setEditable(false);
         totalProfitGpTextField.setFocusable(false);
 
-        submitButton.setText("Submit offer");
-        submitButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitButtonActionPerformed(evt);
+        buyPriceTextField.setColumns(20);
+        buyPriceTextField.setFormatterFactory(dff);
+        buyPriceTextField.setValue(new Integer(0));
+        buyPriceTextField.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                buyPriceTextFieldsellPriceTextFieldPropertyChange(evt);
             }
         });
 
@@ -155,12 +119,37 @@ public class CreateOfferFrame extends javax.swing.JFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        descriptionLabel.setText("Description:");
+        profitPerItemPercentTextField.setEditable(false);
+        profitPerItemPercentTextField.setFocusable(false);
+        profitPerItemPercentTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00%"))));
+        profitPerItemPercentTextField.setValue(new Double(0.0));
+
+        profitPerItemGpLabel.setText("Profit per Item (GP):");
 
         currentPriceLabel.setText("Current GE Price: ");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        profitPerItemPercentLabel.setText("Profit per Item (%):");
+
+        totalProfitGpLabel.setText("Profit (GP):");
+
+        sellPriceLabel.setText("Sell price:");
+
+        descriptionLabel.setText("Description:");
+
+        profitPerItemGpTextField.setEditable(false);
+        profitPerItemGpTextField.setFocusable(false);
+        javax.swing.text.NumberFormatter priceNf = new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,### gp"));
+        priceNf.setAllowsInvalid(false);
+        javax.swing.text.DefaultFormatterFactory priceFormatter = new javax.swing.text.DefaultFormatterFactory(priceNf);
+        profitPerItemGpTextField.setFormatterFactory(priceFormatter);
+        profitPerItemGpTextField.setValue(new Double(0.0));
+
+        buyPriceLabel.setText("Buy price:");
+
+        nameLabel.setText("Item:");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -216,7 +205,7 @@ public class CreateOfferFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(currentPriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(currentPriceValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(amountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(amountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -244,24 +233,7 @@ public class CreateOfferFrame extends javax.swing.JFrame {
                 .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void sellPriceTextFieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_sellPriceTextFieldPropertyChange
-        calculateProfits();
-        JXFormattedTextField tf = (JXFormattedTextField) evt.getSource();
-        tf.transferFocus();
-    }//GEN-LAST:event_sellPriceTextFieldPropertyChange
-
-    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        System.out.println("Create Offer with these details \n");
-        ItemRow item = (ItemRow) itemsComboBox.getSelectedItem();
-        System.out.println("Item: " + item.toString());
-        System.out.println("Buy price: " + buyPriceTextField.getValue());
-        System.out.println("Sell price: " + sellPriceTextField.getValue());
-
-    }//GEN-LAST:event_submitButtonActionPerformed
 
     private void itemsComboBoxPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_itemsComboBoxPropertyChange
         if (itemsComboBox.getSelectedIndex() > -1) {
@@ -269,43 +241,33 @@ public class CreateOfferFrame extends javax.swing.JFrame {
             descriptionValue.setText(item.getDescription());
             currentPriceValue.setText(item.getAccuratePriceString());
         }
-
     }//GEN-LAST:event_itemsComboBoxPropertyChange
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateOfferFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateOfferFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateOfferFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateOfferFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        System.out.println("Create Offer with these details \n");
+        ItemRow item = (ItemRow) itemsComboBox.getSelectedItem();
+        System.out.println("Item: " + item.toString());
+        System.out.println("Buy price: " + buyPriceTextField.getValue());
+        System.out.println("Sell price: " + sellPriceTextField.getValue());
+    }//GEN-LAST:event_submitButtonActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CreateOfferFrame().setVisible(true);
-            }
-        });
-    }
+    private void sellPriceTextFieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_sellPriceTextFieldPropertyChange
+        calculateProfits();
+        JXFormattedTextField tf = (JXFormattedTextField) evt.getSource();
+        tf.transferFocus();
+    }//GEN-LAST:event_sellPriceTextFieldPropertyChange
+
+    private void buyPriceTextFieldsellPriceTextFieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_buyPriceTextFieldsellPriceTextFieldPropertyChange
+        calculateProfits();
+        JXFormattedTextField tf = (JXFormattedTextField) evt.getSource();
+        tf.transferFocus();
+    }//GEN-LAST:event_buyPriceTextFieldsellPriceTextFieldPropertyChange
+
+    private void amountTextFieldsellPriceTextFieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_amountTextFieldsellPriceTextFieldPropertyChange
+        calculateProfits();
+        JXFormattedTextField tf = (JXFormattedTextField) evt.getSource();
+        tf.transferFocus();
+    }//GEN-LAST:event_amountTextFieldsellPriceTextFieldPropertyChange
 
     public void fillComboBox() {
         final DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
@@ -379,6 +341,7 @@ public class CreateOfferFrame extends javax.swing.JFrame {
         profitPerItemGpTextField.setValue(profitPerItemGp);
         totalProfitGpTextField.setValue(profitPerItemGp * amount);
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXLabel amountLabel;

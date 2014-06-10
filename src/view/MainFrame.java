@@ -188,6 +188,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void newOfferMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newOfferMenuItemActionPerformed
 
         this.controller.getOfferController().showNewOfferPopup(itemOverviewPanel.getSelectedItem());
+        disableFrame();
 
     }//GEN-LAST:event_newOfferMenuItemActionPerformed
 
@@ -280,6 +281,14 @@ public class MainFrame extends javax.swing.JFrame {
                 categoryMenu2.add(categoryMenuItem);
             }
         }
+    }
+
+    public void disableFrame() {
+        this.setEnabled(false);
+    }
+
+    public void enableFrame() {
+        this.setEnabled(true);
     }
 
     public ItemOverviewPanel getItemOverviewPanel() {
