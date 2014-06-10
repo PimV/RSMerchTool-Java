@@ -74,8 +74,8 @@ public class ItemReader {
     public void retryItem(int itemId) {
         Random rnd = new Random();
         int proxyNumber = rnd.nextInt(proxies.size());
-        stpe.schedule(new ItemInformationThread(itemId, proxies.get(proxyNumber), itemController, this), 0, TimeUnit.MILLISECONDS);
-        //stpe.schedule(new ItemInformationThread(itemId, null, itemController, this), 0, TimeUnit.MILLISECONDS);
+        //stpe.schedule(new ItemInformationThread(itemId, proxies.get(proxyNumber), itemController, this), 0, TimeUnit.MILLISECONDS);
+        stpe.schedule(new ItemInformationThread(itemId, null, itemController, this), 0, TimeUnit.MILLISECONDS);
     }
 
     public void retrieveAllItems() {

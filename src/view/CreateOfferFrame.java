@@ -6,10 +6,16 @@
 package view;
 
 import controller.MainController;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import model.ORM.ItemRow;
 import model.ORM.ItemRowset;
 import model.ORM.ItemTable;
+import org.jdesktop.swingx.JXFormattedTextField;
+import org.jdesktop.swingx.JXTextField;
 
 /**
  *
@@ -26,6 +32,7 @@ public class CreateOfferFrame extends javax.swing.JFrame {
     public CreateOfferFrame() {
         initComponents();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -39,12 +46,114 @@ public class CreateOfferFrame extends javax.swing.JFrame {
 
         nameLabel = new org.jdesktop.swingx.JXLabel();
         itemsComboBox = new org.jdesktop.swingx.JXComboBox();
+        amountLabel = new org.jdesktop.swingx.JXLabel();
+        amountTextField = new org.jdesktop.swingx.JXFormattedTextField();
+        buyPriceLabel = new org.jdesktop.swingx.JXLabel();
+        buyPriceTextField = new org.jdesktop.swingx.JXFormattedTextField();
+        sellPriceLabel = new org.jdesktop.swingx.JXLabel();
+        sellPriceTextField = new org.jdesktop.swingx.JXFormattedTextField();
+        profitPerItemGpLabel = new org.jdesktop.swingx.JXLabel();
+        profitPerItemGpTextField = new org.jdesktop.swingx.JXFormattedTextField();
+        profitPerItemPercentLabel = new org.jdesktop.swingx.JXLabel();
+        profitPerItemPercentTextField = new org.jdesktop.swingx.JXFormattedTextField();
+        totalProfitGpLabel = new org.jdesktop.swingx.JXLabel();
+        totalProfitGpTextField = new org.jdesktop.swingx.JXFormattedTextField();
+        submitButton = new org.jdesktop.swingx.JXButton();
+        itemImage = new org.jdesktop.swingx.JXImageView();
+        descriptionLabel = new org.jdesktop.swingx.JXLabel();
+        descriptionValue = new org.jdesktop.swingx.JXLabel();
+        currentPriceLabel = new org.jdesktop.swingx.JXLabel();
+        currentPriceValue = new org.jdesktop.swingx.JXLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        nameLabel.setText("jXLabel1");
+        nameLabel.setText("Item:");
 
         itemsComboBox.setModel(new DefaultComboBoxModel());
+        itemsComboBox.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                itemsComboBoxPropertyChange(evt);
+            }
+        });
+
+        amountLabel.setText("Amount:");
+
+        amountTextField.setColumns(20);
+        javax.swing.text.NumberFormatter amountNf = new javax.swing.text.NumberFormatter(java.text.NumberFormat.getInstance());
+        amountNf.setAllowsInvalid(false);
+        javax.swing.text.DefaultFormatterFactory dff = new javax.swing.text.DefaultFormatterFactory(amountNf);
+        amountTextField.setFormatterFactory(dff);
+        amountTextField.setValue(new Integer(0));
+        amountTextField.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                sellPriceTextFieldPropertyChange(evt);
+            }
+        });
+
+        buyPriceLabel.setText("Buy price:");
+
+        buyPriceTextField.setColumns(20);
+        javax.swing.text.NumberFormatter priceNf = new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,### gp"));
+        priceNf.setAllowsInvalid(false);
+        javax.swing.text.DefaultFormatterFactory priceFormatter = new javax.swing.text.DefaultFormatterFactory(priceNf);
+        buyPriceTextField.setFormatterFactory(dff);
+        buyPriceTextField.setValue(new Integer(0));
+        buyPriceTextField.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                sellPriceTextFieldPropertyChange(evt);
+            }
+        });
+
+        sellPriceLabel.setText("Sell price:");
+
+        sellPriceTextField.setFormatterFactory(dff);
+        sellPriceTextField.setValue(new Integer(0));
+        sellPriceTextField.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                sellPriceTextFieldPropertyChange(evt);
+            }
+        });
+
+        profitPerItemGpLabel.setText("Profit per Item (GP):");
+
+        profitPerItemGpTextField.setEditable(false);
+        profitPerItemGpTextField.setFocusable(false);
+        profitPerItemGpTextField.setFormatterFactory(priceFormatter);
+        profitPerItemGpTextField.setValue(new Double(0.0));
+
+        profitPerItemPercentLabel.setText("Profit per Item (%):");
+
+        profitPerItemPercentTextField.setEditable(false);
+        profitPerItemPercentTextField.setFocusable(false);
+        profitPerItemPercentTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00%"))));
+        profitPerItemPercentTextField.setValue(new Double(0.0));
+
+        totalProfitGpLabel.setText("Profit (GP):");
+
+        totalProfitGpTextField.setEditable(false);
+        totalProfitGpTextField.setFocusable(false);
+
+        submitButton.setText("Submit offer");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout itemImageLayout = new javax.swing.GroupLayout(itemImage);
+        itemImage.setLayout(itemImageLayout);
+        itemImageLayout.setHorizontalGroup(
+            itemImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        itemImageLayout.setVerticalGroup(
+            itemImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        descriptionLabel.setText("Description:");
+
+        currentPriceLabel.setText("Current GE Price: ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -52,9 +161,37 @@ public class CreateOfferFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(itemsComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(submitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buyPriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(sellPriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(totalProfitGpLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(profitPerItemGpLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(profitPerItemPercentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(amountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(amountTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                            .addComponent(profitPerItemPercentTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(profitPerItemGpTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(sellPriceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(itemsComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(buyPriceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(totalProfitGpTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(itemImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(descriptionValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(currentPriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(currentPriceValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -64,11 +201,72 @@ public class CreateOfferFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(itemsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(417, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(itemImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(descriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(descriptionValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(currentPriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(currentPriceValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(amountLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(amountTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buyPriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buyPriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sellPriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sellPriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(profitPerItemGpLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(profitPerItemGpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(profitPerItemPercentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(profitPerItemPercentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(totalProfitGpLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalProfitGpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(submitButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void sellPriceTextFieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_sellPriceTextFieldPropertyChange
+        calculateProfits();
+        JXFormattedTextField tf = (JXFormattedTextField) evt.getSource();
+        tf.transferFocus();
+    }//GEN-LAST:event_sellPriceTextFieldPropertyChange
+
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        System.out.println("Create Offer with these details \n");
+        ItemRow item = (ItemRow) itemsComboBox.getSelectedItem();
+        System.out.println("Item: " + item.toString());
+        System.out.println("Buy price: " + buyPriceTextField.getValue());
+        System.out.println("Sell price: " + sellPriceTextField.getValue());
+
+    }//GEN-LAST:event_submitButtonActionPerformed
+
+    private void itemsComboBoxPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_itemsComboBoxPropertyChange
+        if (itemsComboBox.getSelectedIndex() > -1) {
+            ItemRow item = (ItemRow) itemsComboBox.getSelectedItem();
+            descriptionValue.setText(item.getDescription());
+            currentPriceValue.setText(item.getAccuratePriceString());
+        }
+
+    }//GEN-LAST:event_itemsComboBoxPropertyChange
 
     /**
      * @param args the command line arguments
@@ -106,12 +304,19 @@ public class CreateOfferFrame extends javax.swing.JFrame {
     }
 
     public void fillComboBox() {
-        DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
-        ItemRowset items = ItemTable.getInstance().fetchAll();
-        for (ItemRow item : items) {
-            dcbm.addElement(item);
-        }
-        itemsComboBox.setModel(dcbm);
+        final DefaultComboBoxModel dcbm = new DefaultComboBoxModel();
+        Runnable r = new Runnable() {
+
+            @Override
+            public void run() {
+                ItemRowset items = ItemTable.getInstance().fetchAll();
+                for (ItemRow item : items) {
+                    dcbm.addElement(item);
+                }
+                itemsComboBox.setModel(dcbm);
+            }
+        };
+        r.run();
 
     }
 
@@ -129,14 +334,68 @@ public class CreateOfferFrame extends javax.swing.JFrame {
 
                 if (tempItem.getID() == item.getID()) {
                     itemsComboBox.setSelectedIndex(i);
+                    setItemInformation(item);
                     break;
                 }
             }
         }
     }
 
+    public void setItemInformation(ItemRow item) {
+        descriptionValue.setText(item.getDescription());
+        currentPriceValue.setText(item.getAccuratePriceString());
+        try {
+            itemImage.setImage(new File("images//" + item.getItemId() + ".jpg"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void calculateProfits() {
+        //Get numbers
+        Number sellPriceNumber = (Number) sellPriceTextField.getValue();
+        Number buyPriceNumber = (Number) buyPriceTextField.getValue();
+        Number amountNumber = (Number) amountTextField.getValue();
+
+        //Cast numbers
+        double sellPrice = sellPriceNumber.doubleValue();
+        double buyPrice = buyPriceNumber.doubleValue();
+        double amount = amountNumber.doubleValue();
+
+        System.out.println("Buy price: " + buyPrice);
+        System.out.println("Sell price: " + sellPrice);
+
+        //Calculate values
+        double profitPerItemGp = sellPrice - buyPrice;
+        double profitPerItemPercent = -1;
+        if (buyPrice > 0) {
+            profitPerItemPercent = ((profitPerItemGp) / buyPrice);
+        }
+        profitPerItemPercentTextField.setValue(profitPerItemPercent);
+        profitPerItemGpTextField.setValue(profitPerItemGp);
+        totalProfitGpTextField.setValue(profitPerItemGp * amount);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.jdesktop.swingx.JXLabel amountLabel;
+    private org.jdesktop.swingx.JXFormattedTextField amountTextField;
+    private org.jdesktop.swingx.JXLabel buyPriceLabel;
+    private org.jdesktop.swingx.JXFormattedTextField buyPriceTextField;
+    private org.jdesktop.swingx.JXLabel currentPriceLabel;
+    private org.jdesktop.swingx.JXLabel currentPriceValue;
+    private org.jdesktop.swingx.JXLabel descriptionLabel;
+    private org.jdesktop.swingx.JXLabel descriptionValue;
+    private org.jdesktop.swingx.JXImageView itemImage;
     private org.jdesktop.swingx.JXComboBox itemsComboBox;
     private org.jdesktop.swingx.JXLabel nameLabel;
+    private org.jdesktop.swingx.JXLabel profitPerItemGpLabel;
+    private org.jdesktop.swingx.JXFormattedTextField profitPerItemGpTextField;
+    private org.jdesktop.swingx.JXLabel profitPerItemPercentLabel;
+    private org.jdesktop.swingx.JXFormattedTextField profitPerItemPercentTextField;
+    private org.jdesktop.swingx.JXLabel sellPriceLabel;
+    private org.jdesktop.swingx.JXFormattedTextField sellPriceTextField;
+    private org.jdesktop.swingx.JXButton submitButton;
+    private org.jdesktop.swingx.JXLabel totalProfitGpLabel;
+    private org.jdesktop.swingx.JXFormattedTextField totalProfitGpTextField;
     // End of variables declaration//GEN-END:variables
 }

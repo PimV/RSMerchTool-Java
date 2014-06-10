@@ -59,6 +59,7 @@ public class ItemInformationThread implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("Running retrieve thread");
         try {
             itemController.showBusy(true);
             ItemTable it = ItemTable.getInstance();
@@ -74,12 +75,12 @@ public class ItemInformationThread implements Runnable {
 
         } catch (Exception e) {
 
-            this.proxy.freeSlot();
+            //this.proxy.freeSlot();
             if (e instanceof FileNotFoundException) {
             } else {
                 // System.err.println("Error retrieving item with itemId: " + this.itemId + ". -- RETRYING");
                 // System.err.println(this.proxy.address());
-                // e.printStackTrace();
+                e.printStackTrace();
                 // itemController.reloadItem(itemId);
                 itemReader.retryItem(itemId);
             }
@@ -96,8 +97,8 @@ public class ItemInformationThread implements Runnable {
         } else {
             conn = itemInformation.openConnection();
         }
-        conn.setReadTimeout(1000);
-        conn.setConnectTimeout(2500);
+      //  conn.setReadTimeout(1000);
+        //  conn.setConnectTimeout(2500);
 
         InputStream is = conn.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
@@ -178,8 +179,8 @@ public class ItemInformationThread implements Runnable {
         } else {
             conn = itemInformation.openConnection();
         }
-        conn.setReadTimeout(1000);
-        conn.setConnectTimeout(2500);
+        //conn.setReadTimeout(1000);
+        //conn.setConnectTimeout(2500);
         InputStream is = conn.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
         String json = (String) readAll(br);
@@ -207,7 +208,7 @@ public class ItemInformationThread implements Runnable {
     }
 
     private void downloadImage(String urlString, ItemRow item) throws Exception {
-        File f = new File("C://RSMerchTool//RSMerchTool-Java//images//" + item.getItemId() + ".jpg");
+        File f = new File("images//" + item.getItemId() + ".jpg");
         if (!f.exists()) {
             URL url = new URL(urlString);
             InputStream in = new BufferedInputStream(url.openStream());
@@ -223,7 +224,7 @@ public class ItemInformationThread implements Runnable {
 
             FileOutputStream fos
                     = new FileOutputStream(
-                            "C://RSMerchTool//RSMerchTool-Java//images//" + item.getItemId() + ".jpg"
+                            "images//" + item.getItemId() + ".jpg"
                     );
             fos.write(response);
             fos.close();

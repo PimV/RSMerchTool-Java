@@ -30,7 +30,8 @@ public class MainFrame extends javax.swing.JFrame {
                 "view.StayOpenCheckBoxMenuItemUI");
         initComponents();
         this.addCategoryMenuItems();
-        this.setVisible(true);
+        this.setLocationRelativeTo(null);
+        //this.setVisible(true);
 
     }
 

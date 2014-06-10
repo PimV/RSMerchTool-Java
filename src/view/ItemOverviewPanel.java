@@ -385,7 +385,8 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
         itemLastUpdatedValue.setText(selectedItem.getLastUpdated());
         itemAccuratePriceValue.setText(selectedItem.getAccuratePriceString() + "gp");
         try {
-            itemImage.setImage(new File("C://RSMerchTool//RSMerchTool-Java//images//" + selectedItem.getItemId() + ".jpg"));
+           // itemImage.setImage(new File("C://RSMerchTool//RSMerchTool-Java//images//" + selectedItem.getItemId() + ".jpg"));
+            itemImage.setImage(new File("images//" + selectedItem.getItemId() + ".jpg"));
         } catch (IOException ex) {
             ex.printStackTrace();
         }

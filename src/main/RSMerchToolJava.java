@@ -23,10 +23,11 @@ public class RSMerchToolJava {
         MainController mainController = new MainController();
         mainFrame.setControllers(mainController);
         mainController.setMainFrame(mainFrame);
-
+        
         mainController.getItemController().showAllItems();
+        mainFrame.setVisible(true);
         //  mainController.getItemController().showAllItems();
         // mainController.getItemController().reloadItem(2);
     }
-
+    
 }

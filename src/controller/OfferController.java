@@ -39,9 +39,10 @@ public class OfferController {
         CreateOfferFrame cof = new CreateOfferFrame();
         System.out.println(selectedItem);
         cof.setMainController(this.mainController);
+        cof.setVisible(true);
         cof.fillComboBox();
         cof.setInitialItem(selectedItem);
-        cof.setVisible(true);
+
     }
 
 }
