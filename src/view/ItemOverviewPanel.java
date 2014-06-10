@@ -20,7 +20,7 @@ import model.ORM.ItemRow;
  */
 @SuppressWarnings("unchecked")
 public class ItemOverviewPanel extends javax.swing.JPanel {
-    
+
     private ItemRow selectedItem;
     private ArrayList<RowFilter<Object, Object>> filters = new ArrayList<>();
     private MainController mainController;
@@ -30,14 +30,14 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
      */
     public ItemOverviewPanel() {
         initComponents();
-        
+
         busyLabel.setVisible(false);
-        
+
         orderAlphabetically();
-        
+
         DocumentListener listener = new ItemSearchFieldListener(this);
         itemSearchField.getDocument().addDocumentListener(listener);
-        
+
     }
 
     /**
@@ -59,8 +59,7 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
         itemPanel = new javax.swing.JPanel();
         itemNameLabel = new javax.swing.JLabel();
         itemNameValue = new javax.swing.JLabel();
-        itemDescriptionLabel = new javax.swing.JLabel();
-        itemDescriptionValue = new javax.swing.JLabel();
+        itemDescriptionValue = new org.jdesktop.swingx.JXLabel();
         itemCategoryLabel = new javax.swing.JLabel();
         itemCategoryValue = new javax.swing.JLabel();
         itemMembersValue = new javax.swing.JLabel();
@@ -75,6 +74,7 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
         refreshItemButton = new org.jdesktop.swingx.JXButton();
         createOfferButton = new org.jdesktop.swingx.JXButton();
         favoriteItemButton = new org.jdesktop.swingx.JXButton();
+        itemDescriptionLabel = new org.jdesktop.swingx.JXLabel();
 
         itemList.setModel(new DefaultListModel<ItemRow>());
         itemList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -135,7 +135,10 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
 
         itemNameLabel.setText("Item:");
 
-        itemDescriptionLabel.setText("Description:");
+        itemDescriptionValue.setLineWrap(true);
+        itemDescriptionValue.setText("-");
+        itemDescriptionValue.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        itemDescriptionValue.setMaximumSize(new java.awt.Dimension(2147483647, 0));
 
         itemCategoryLabel.setText("Category:");
 
@@ -204,6 +207,8 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
             }
         });
 
+        itemDescriptionLabel.setText("Description:");
+
         javax.swing.GroupLayout itemPanelLayout = new javax.swing.GroupLayout(itemPanel);
         itemPanel.setLayout(itemPanelLayout);
         itemPanelLayout.setHorizontalGroup(
@@ -214,26 +219,29 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
                     .addGroup(itemPanelLayout.createSequentialGroup()
                         .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(itemPanelLayout.createSequentialGroup()
-                                .addComponent(itemDescriptionLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(itemDescriptionValue))
+                                .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(itemPanelLayout.createSequentialGroup()
+                                        .addComponent(itemNameLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(itemNameValue))
+                                    .addGroup(itemPanelLayout.createSequentialGroup()
+                                        .addComponent(itemCategoryLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(itemCategoryValue))
+                                    .addGroup(itemPanelLayout.createSequentialGroup()
+                                        .addComponent(itemMembersLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(itemMembersValue))
+                                    .addGroup(itemPanelLayout.createSequentialGroup()
+                                        .addComponent(itemAccuratePriceLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(itemAccuratePriceValue)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(itemPanelLayout.createSequentialGroup()
-                                .addComponent(itemNameLabel)
+                                .addComponent(itemDescriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(itemNameValue))
-                            .addGroup(itemPanelLayout.createSequentialGroup()
-                                .addComponent(itemCategoryLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(itemCategoryValue))
-                            .addGroup(itemPanelLayout.createSequentialGroup()
-                                .addComponent(itemMembersLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(itemMembersValue))
-                            .addGroup(itemPanelLayout.createSequentialGroup()
-                                .addComponent(itemAccuratePriceLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(itemAccuratePriceValue)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(itemDescriptionValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(140, 140, 140)))
                         .addComponent(itemImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(busyPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -261,8 +269,8 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
                             .addComponent(itemNameValue))
                         .addGap(7, 7, 7)
                         .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(itemDescriptionLabel)
-                            .addComponent(itemDescriptionValue))
+                            .addComponent(itemDescriptionValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(itemDescriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(8, 8, 8)
                         .addGroup(itemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(itemCategoryLabel)
@@ -323,7 +331,7 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
                 if (selectedItem == null || selectedItemTemp.getID() != selectedItem.getID()) {
                     selectedItem = selectedItemTemp;
                     int itemId = selectedItem.getID();
-                    
+
                     this.mainController.getItemController().reloadItem(itemId);
                 }
             }
@@ -333,7 +341,7 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
     private void refreshItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshItemButtonActionPerformed
         if (selectedItem != null) {
             int itemId = selectedItem.getID();
-            
+
             this.mainController.getItemController().reloadItem(itemId);
             showSingleItem(selectedItem);
         }
@@ -346,7 +354,7 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
     private void favoriteItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_favoriteItemButtonActionPerformed
         System.out.println("Favoriting is not implemented yet.");
     }//GEN-LAST:event_favoriteItemButtonActionPerformed
-    
+
     public synchronized void addItemToList(final ItemRow item) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -356,7 +364,7 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
             }
         });
     }
-    
+
     public synchronized void updateItemInList(final ItemRow item) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
@@ -373,25 +381,26 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
                     }
                 }
             }
-            
+
         });
     }
-    
+
     public void showSingleItem(ItemRow selectedItem) {
-        itemNameValue.setText(selectedItem.getName());
-        itemDescriptionValue.setText(selectedItem.getDescription());
-        itemCategoryValue.setText(selectedItem.getCategory().getNiceName());
+
+        itemNameValue.setText(selectedItem.getName().trim());
+        itemDescriptionValue.setText("<html>" + selectedItem.getDescription().trim() + "</html>");
+        itemCategoryValue.setText(selectedItem.getCategory().getNiceName().trim());
         itemMembersValue.setText(selectedItem.isMembers() + "");
-        itemLastUpdatedValue.setText(selectedItem.getLastUpdated());
-        itemAccuratePriceValue.setText(selectedItem.getAccuratePriceString() + "gp");
+        itemLastUpdatedValue.setText(selectedItem.getLastUpdated().trim());
+        itemAccuratePriceValue.setText(selectedItem.getAccuratePriceString().trim() + "gp");
         try {
-           // itemImage.setImage(new File("C://RSMerchTool//RSMerchTool-Java//images//" + selectedItem.getItemId() + ".jpg"));
+
             itemImage.setImage(new File("images//" + selectedItem.getItemId() + ".jpg"));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-    
+
     public void filterCategory(CategoryCheckBoxMenuItem menuItem) {
         int loopSize = filters.size();
         for (int i = 0; i < loopSize; i++) {
@@ -406,10 +415,10 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
             }
         }
         addFilter(new ItemCategoryFilter(menuItem));
-        
+
         applyFilters();
     }
-    
+
     public void toggleMembers(boolean showMembers) {
         int loopSize = filters.size();
         for (int i = 0; i < loopSize; i++) {
@@ -426,61 +435,61 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
         }
         applyFilters();
     }
-    
+
     public void orderAlphabetically() {
         itemList.setAutoCreateRowSorter(true);
         itemList.toggleSortOrder();
     }
-    
+
     public void setBusy(boolean busy) {
         busyLabel.setVisible(busy);
         busyLabel.setBusy(busy);
     }
-    
+
     public void updateNumberCount() {
         itemNumberValue.setText(itemList.getElementCount() + "");
     }
-    
+
     void applyFilters() {
         itemList.setRowFilter(RowFilter.andFilter(filters));
         updateNumberCount();
     }
-    
+
     public void clearList() {
         itemList.setModel(new DefaultListModel<ItemRow>());
     }
-    
+
     void replaceSearchFilter(ItemRowFilter itemRowFilter) {
         int loopSize = filters.size();
-        
+
         for (int i = 0; i < loopSize; i++) {
             if (filters.get(i) instanceof ItemRowFilter) {
                 filters.remove(i);
                 if (itemRowFilter == null) {
-                    
+
                     applyFilters();
                     return;
                 }
             }
         }
-        
+
         addFilter(itemRowFilter);
         applyFilters();
     }
-    
+
     void addFilter(RowFilter rf) {
         if (filters.contains(rf)) {
-            
+
         } else {
             filters.add(rf);
         }
         applyFilters();
     }
-    
+
     public ItemRow getSelectedItem() {
         return this.selectedItem;
     }
-    
+
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
@@ -495,8 +504,8 @@ public class ItemOverviewPanel extends javax.swing.JPanel {
     private javax.swing.JLabel itemAccuratePriceValue;
     private javax.swing.JLabel itemCategoryLabel;
     private javax.swing.JLabel itemCategoryValue;
-    private javax.swing.JLabel itemDescriptionLabel;
-    private javax.swing.JLabel itemDescriptionValue;
+    private org.jdesktop.swingx.JXLabel itemDescriptionLabel;
+    private org.jdesktop.swingx.JXLabel itemDescriptionValue;
     private org.jdesktop.swingx.JXImageView itemImage;
     private javax.swing.JLabel itemLastUpdatedLabel;
     private javax.swing.JLabel itemLastUpdatedValue;
